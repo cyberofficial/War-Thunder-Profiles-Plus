@@ -1,0 +1,12 @@
+web-ext-artifacts
+main.zip
+firefox_main.zip
+chrome_main.zip
+node_modules
+package.json
+package-lock.json
+firefox_builds/artifacts/
+Chrome Versions/
+chrome_warthunder_statspage/builds/
+firefox_warthunder_statspage/builds/
+FireFox Version/

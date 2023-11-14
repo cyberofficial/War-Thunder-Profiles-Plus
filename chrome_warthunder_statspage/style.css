@@ -1,0 +1,10 @@
+/* style.css */
+.account-age {
+  font-size: 1.9em;
+  color: #2495c9;
+}
+
+.user-profile__data-regdate {
+  color: #eb6709;
+  font-size: 18px;
+}

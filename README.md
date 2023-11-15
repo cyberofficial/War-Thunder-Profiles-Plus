@@ -6,6 +6,8 @@ War Thunder Profiles + is a comprehensive browser extension designed specificall
 ## Download from Browser Extension Storefronts
 Store Versions may be delayed with updates.
 
+Current Version is [`1.0.5`](https://github.com/cyberofficial/War-Thunder-Profiles-Plus/releases/tag/1.0.5)
+
 You can always sideload the extension from the [Releases](https://github.com/cyberofficial/War-Thunder-profiles-Plus/releases) page.
 
 [![Mozilla Add-on Version](https://img.shields.io/amo/v/%7Bcaed2b56-87db-4e7a-a84f-6a5f3286f538%7D)![Mozilla Add-on Downloads](https://img.shields.io/amo/dw/%7Bcaed2b56-87db-4e7a-a84f-6a5f3286f538%7D)![Mozilla Add-on Users](https://img.shields.io/amo/users/%7Bcaed2b56-87db-4e7a-a84f-6a5f3286f538%7D)
@@ -22,8 +24,8 @@ Got an Idea? Head to [Issues](https://github.com/cyberofficial/War-Thunder-profi
 | Account Age | Completed | Shows account age. |
 | Base Stats | Completed | Shows the total stats for the base statistics. |
 | Aviation Stats | Completed | Show the total stats for the Aviation statistics tab. |
-| Ground Stats | I'm Here| Show the total stats for the Ground statistics tab. |
-| Fleet Stats | TBD | Show the total stats for the Fleet statistics tab. |
+| Ground Stats | Completed | Show the total stats for the Ground statistics tab. |
+| Fleet Stats | I'm Here | Show the total stats for the Fleet statistics tab. |
 | Vehicles and Rewards | TBD | Show the total stats for Vehicles and Rewards table. |
 | Save stats and compare | TBD | Save the current stats on the page and compare with another profile. |
 | Historical  Data | TBD | Save current stats for Historical purposes and see how much changed from your last visit. |

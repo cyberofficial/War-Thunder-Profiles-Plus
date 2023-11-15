@@ -1,12 +1,12 @@
 /* style.css */
 .account-age {
-  font-size: 1.9em;
+  font-size: 24px;
   color: #2495c9;
 }
 
 .user-profile__data-regdate {
-  color: #eb6709;
-  font-size: 18px;
+  color: #eb6709 !important;
+  font-size: 24px !important;
 }
 
 .positive {
@@ -18,10 +18,27 @@
 }
 
 .content__title {
-  margin-bottom: 40px;
-  font-family: "RobotoCondensed",sans-serif;
   font-size: 32px !important;
-  font-weight: 800;
-  line-height: 1.17;
-  color: #cfd8dc;
+}
+
+/* Base button styles */
+.compareBtn, .saveBtn, .wipeBtn {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: white;
+  text-shadow: 1px 1px 2px black;
+}
+
+/* from user-profile__data-list get the 4th child and make it 24px */
+.user-profile__data-list > :nth-child(4) {
+  font-size: 24px !important;
+}
+
+.user-profile__data-link {
+  font-size: 24px !important;
 }

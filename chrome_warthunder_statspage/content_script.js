@@ -127,6 +127,40 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
         NAV_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.simulationFightTab");
         NAV_SB_TableData.innerHTML = NAV_SB_TableData.innerHTML.replace(/N\/A/g, "0");
 
+        // Function to add dummy clan tag
+        function addDummyClanTag() {
+            // Select the user profile element
+            const userProfile = document.querySelector(".user-profile");
+
+            // Check if the clan tag element already exists
+            const clanTagExists = userProfile.querySelector(".user-profile__data-clan");
+
+            // If the clan tag does not exist, create and add it
+            if (!clanTagExists) {
+                // Create the clan tag list item
+                const clanTagItem = document.createElement("li");
+                clanTagItem.className = "user-profile__data-clan";
+
+                // Create the anchor tag for the clan name
+                const clanLink = document.createElement("a");
+                clanLink.className = "user-profile__data-link";
+                clanLink.href = "#"; // Dummy link, replace with actual if needed
+                clanLink.textContent = "NOT IN A CLAN"; // Your dummy clan name
+
+                // Append the anchor tag to the list item
+                clanTagItem.appendChild(clanLink);
+
+                // Find the nickname element (assuming it's the first list item)
+                const nicknameItem = userProfile.querySelector(".user-profile__data-nick");
+
+                // Insert the new clan tag item after the nickname item
+                nicknameItem.parentNode.insertBefore(clanTagItem, nicknameItem.nextSibling);
+            }
+        }
+
+        // Call the function to add the dummy clan tag
+        addDummyClanTag();
+
 
         
         // Varibles Section

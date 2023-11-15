@@ -106,6 +106,62 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
         if (document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.simulationFightTab > li:nth-child(7)").innerText == "0") {
             document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.simulationFightTab > li:nth-child(7)").innerText = "0m";
         }
+        // search for all "N/A" and replace with 0 document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType")
+        const AVI_AB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.arcadeFightTab.is-visible");
+        // replace all N/A with 0
+        AVI_AB_TableData.innerHTML = AVI_AB_TableData.innerHTML.replace(/N\/A/g, "0");
+        AVI_RB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.historyFightTab")
+        AVI_RB_TableData.innerHTML = AVI_RB_TableData.innerHTML.replace(/N\/A/g, "0");
+        AVI_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.simulationFightTab");
+        AVI_SB_TableData.innerHTML = AVI_SB_TableData.innerHTML.replace(/N\/A/g, "0");
+        GRND_AB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.arcadeFightTab.is-visible");
+        GRND_AB_TableData.innerHTML = GRND_AB_TableData.innerHTML.replace(/N\/A/g, "0");
+        GRND_RB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.historyFightTab");
+        GRND_RB_TableData.innerHTML = GRND_RB_TableData.innerHTML.replace(/N\/A/g, "0");
+        GRND_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.simulationFightTab");
+        GRND_SB_TableData.innerHTML = GRND_SB_TableData.innerHTML.replace(/N\/A/g, "0");
+        NAV_AB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.arcadeFightTab.is-visible");
+        NAV_AB_TableData.innerHTML = NAV_AB_TableData.innerHTML.replace(/N\/A/g, "0");
+        NAV_RB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.historyFightTab");
+        NAV_RB_TableData.innerHTML = NAV_RB_TableData.innerHTML.replace(/N\/A/g, "0");
+        NAV_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.simulationFightTab");
+        NAV_SB_TableData.innerHTML = NAV_SB_TableData.innerHTML.replace(/N\/A/g, "0");
+
+        // Function to add dummy clan tag
+        function addDummyClanTag() {
+            // Select the user profile element
+            const userProfile = document.querySelector(".user-profile");
+
+            // Check if the clan tag element already exists
+            const clanTagExists = userProfile.querySelector(".user-profile__data-clan");
+
+            // If the clan tag does not exist, create and add it
+            if (!clanTagExists) {
+                // Create the clan tag list item
+                const clanTagItem = document.createElement("li");
+                clanTagItem.className = "user-profile__data-clan";
+
+                // Create the anchor tag for the clan name
+                const clanLink = document.createElement("a");
+                clanLink.className = "user-profile__data-link";
+                clanLink.href = "#"; // Dummy link, replace with actual if needed
+                clanLink.textContent = "NOT IN A CLAN"; // Your dummy clan name
+
+                // Append the anchor tag to the list item
+                clanTagItem.appendChild(clanLink);
+
+                // Find the nickname element (assuming it's the first list item)
+                const nicknameItem = userProfile.querySelector(".user-profile__data-nick");
+
+                // Insert the new clan tag item after the nickname item
+                nicknameItem.parentNode.insertBefore(clanTagItem, nicknameItem.nextSibling);
+            }
+        }
+
+        // Call the function to add the dummy clan tag
+        addDummyClanTag();
+
+
         
         // Varibles Section
         var Arcade_victories = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(2)").innerText;

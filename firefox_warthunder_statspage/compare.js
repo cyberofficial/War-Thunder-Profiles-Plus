@@ -31,8 +31,11 @@ function addSaveAndCompareButtons() {
         const saveButton = document.createElement('span');
         saveButton.textContent = ' (Save)';
         saveButton.style.cursor = 'pointer';
+        // give save the id of saveBtn
+        saveButton.id = 'saveBtn';
         const compareButton = document.createElement('span');
         compareButton.textContent = ' (Compare)';
+        compareButton.id = 'compareBtn';
         // if there is a saved named from compare then make it say (Compare with <profilenamehere>)
         getData(function(data) {
             if (data.profileName) {
@@ -81,7 +84,14 @@ function addSaveAndCompareButtons() {
             if (avatarElem && avatarElem.querySelector('img')) {
                 dataToSave['avatarUrl'] = avatarElem.querySelector('img').src;
             }
+
+
             const clanTagElem = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div:nth-child(1) > ul > li.user-profile__data-clan a");
+            // if there is no clan tag then save not in a clan
+            if (!clanTagElem) {
+                dataToSave['clanTag'] = 'Not in a clan';
+                dataToSave['clanUrl'] = '';
+            }
             if (clanTagElem) {
                 dataToSave['clanTag'] = clanTagElem.textContent.trim();
                 dataToSave['clanUrl'] = clanTagElem.href;
@@ -160,6 +170,7 @@ function addSaveAndCompareButtons() {
         const wipeButton = document.createElement('span');
         wipeButton.textContent = ' (Wipe Data)';
         wipeButton.style.cursor = 'pointer';
+        wipeButton.id = 'wipeBtn';
         wipeButton.onclick = function() {
             wipeData();
         }

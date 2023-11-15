@@ -106,6 +106,28 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
         if (document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.simulationFightTab > li:nth-child(7)").innerText == "0") {
             document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.simulationFightTab > li:nth-child(7)").innerText = "0m";
         }
+        // search for all "N/A" and replace with 0 document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType")
+        const AVI_AB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.arcadeFightTab.is-visible");
+        // replace all N/A with 0
+        AVI_AB_TableData.innerHTML = AVI_AB_TableData.innerHTML.replace(/N\/A/g, "0");
+        AVI_RB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.historyFightTab")
+        AVI_RB_TableData.innerHTML = AVI_RB_TableData.innerHTML.replace(/N\/A/g, "0");
+        AVI_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.simulationFightTab");
+        AVI_SB_TableData.innerHTML = AVI_SB_TableData.innerHTML.replace(/N\/A/g, "0");
+        GRND_AB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.arcadeFightTab.is-visible");
+        GRND_AB_TableData.innerHTML = GRND_AB_TableData.innerHTML.replace(/N\/A/g, "0");
+        GRND_RB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.historyFightTab");
+        GRND_RB_TableData.innerHTML = GRND_RB_TableData.innerHTML.replace(/N\/A/g, "0");
+        GRND_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.simulationFightTab");
+        GRND_SB_TableData.innerHTML = GRND_SB_TableData.innerHTML.replace(/N\/A/g, "0");
+        NAV_AB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.arcadeFightTab.is-visible");
+        NAV_AB_TableData.innerHTML = NAV_AB_TableData.innerHTML.replace(/N\/A/g, "0");
+        NAV_RB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.historyFightTab");
+        NAV_RB_TableData.innerHTML = NAV_RB_TableData.innerHTML.replace(/N\/A/g, "0");
+        NAV_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.simulationFightTab");
+        NAV_SB_TableData.innerHTML = NAV_SB_TableData.innerHTML.replace(/N\/A/g, "0");
+
+
         
         // Varibles Section
         var Arcade_victories = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(2)").innerText;

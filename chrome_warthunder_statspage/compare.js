@@ -38,6 +38,9 @@ function addSaveAndCompareButtons() {
 
         compareButton.onclick = function() {
             getData(function(data) {
+                if (profileNameElem.textContent.includes('Comparing with')) {
+                    return;
+                }
                 profileNameElem.textContent = `${profileNameElem.textContent.trim()} | Comparing with ${data.profileName}`;
                 levelElem.textContent = `${levelElem.textContent.trim()} | ${data.profileName}: ${data.level}`;
                 regDateElem.textContent = `${regDateElem.textContent.trim()} | ${data.profileName}: ${data.regDate}`;

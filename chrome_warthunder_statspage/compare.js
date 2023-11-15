@@ -115,6 +115,11 @@ function addSaveAndCompareButtons() {
                 if (profileNameElem.textContent.includes('Comparing with')) {
                     return;
                 }
+
+                // if there is no data saved then return
+                if (!data.profileName) {
+                    return;
+                }
         
                 // Clone the profile section
                 const profileSection = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile");

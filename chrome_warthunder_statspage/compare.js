@@ -3,13 +3,15 @@ function addSaveAndCompareButtons() {
     const profileNameSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li.user-profile__data-nick';
     const levelSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li:nth-child(4)';
     const regDateSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li.user-profile__data-regdate';
+    const accountAgeSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > h3';
 
     const totalsTab = document.querySelector(totalsPath);
     const profileNameElem = document.querySelector(profileNameSelector);
     const levelElem = document.querySelector(levelSelector);
     const regDateElem = document.querySelector(regDateSelector);
+    const accountAgeElem = document.querySelector(accountAgeSelector);
 
-    if (totalsTab && profileNameElem && levelElem && regDateElem) {
+    if (totalsTab && profileNameElem && levelElem && regDateElem && accountAgeElem) {
         const totalsItem = totalsTab.querySelector('.user-stat__list-item'); // 'Totals' label
 
         // Create and append the Save button
@@ -27,8 +29,9 @@ function addSaveAndCompareButtons() {
             dataToSave['profileName'] = profileNameElem.textContent.trim();
             dataToSave['level'] = levelElem.textContent.trim();
             dataToSave['regDate'] = regDateElem.textContent.trim();
+            dataToSave['accountAge'] = accountAgeElem.textContent.trim();
             chrome.storage.local.set(dataToSave);
-            console.log('All values, profile name, level, and registration date saved:', dataToSave);
+            console.log('All values, profile name, level, registration date, and account age saved:', dataToSave);
         };
 
         // Create and append the Compare button
@@ -40,6 +43,12 @@ function addSaveAndCompareButtons() {
                 profileNameElem.textContent = `${profileNameElem.textContent.trim()} | Comparing with ${data.profileName}`;
                 levelElem.textContent = `${levelElem.textContent.trim()} | ${data.profileName}: ${data.level}`;
                 regDateElem.textContent = `${regDateElem.textContent.trim()} | ${data.profileName}: ${data.regDate}`;
+
+                // Create a new h3 element for account age comparison
+                const newAccountAgeElem = document.createElement('h3');
+                newAccountAgeElem.className = 'account-age';
+                newAccountAgeElem.textContent = `${data.profileName}: ${data.accountAge}`;
+                accountAgeElem.parentNode.insertBefore(newAccountAgeElem, accountAgeElem.nextSibling);
 
                 totalsTab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
                     if (index > 0 && data['value' + index] !== undefined) {

@@ -20,6 +20,9 @@ function addSaveAndCompareButtons() {
     const ab_naval_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.arcadeFightTab.is-visible';
     const rb_naval_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.historyFightTab';
     const naval_total_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.totalsTab';
+    const totalUnits_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(2)';
+    const totalEliteUnits_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(3)';
+    const totalMedals_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(4)';
 
 
     // Querying elements
@@ -43,6 +46,9 @@ function addSaveAndCompareButtons() {
     const ab_naval_row_elem = document.querySelector(ab_naval_row);
     const rb_naval_row_elem = document.querySelector(rb_naval_row);
     const naval_total_row_elem = document.querySelector(naval_total_row);
+    const totalUnits_row_elem = document.querySelector(totalUnits_row);
+    const totalEliteUnits_row_elem = document.querySelector(totalEliteUnits_row);
+    const totalMedals_row_elem = document.querySelector(totalMedals_row);
 
     if (totalsTab && profileNameElem && levelElem && regDateElem && accountAgeElem && arcadeBattlesTab && realisticBattlesTab && simulationBattlesTab) {
         const totalsItem = totalsTab.querySelector('.user-stat__list-item');
@@ -89,6 +95,30 @@ function addSaveAndCompareButtons() {
             saveTabData(arcadeBattlesTab, 'arcade');
             saveTabData(realisticBattlesTab, 'realistic');
             saveTabData(simulationBattlesTab, 'simulation');
+
+            // get all user-score__list-item from user-score__list-col excluding user-score__list-item user-score__list-item--plane from #bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(2)
+            totalUnits_row_elem.querySelectorAll('.user-score__list-col:not(.user-score__list-col--plane) .user-score__list-item').forEach((item, index) => {
+                const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                dataToSave[`totalUnitsvalue${index}`] = currentValue;
+            });
+
+            // save the column data for total units
+            saveTabData(totalUnits_row_elem, 'totalUnits');
+
+            // same thing but not user-score__list-item user-score__list-item--elitplanes
+            totalEliteUnits_row_elem.querySelectorAll('.user-score__list-col:not(.user-score__list-col--elitplanes) .user-score__list-item').forEach((item, index) => {
+                const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                dataToSave[`totalEliteUnitsvalue${index}`] = currentValue;
+            });
+
+            // save the column data for total elite units
+            saveTabData(totalEliteUnits_row_elem, 'totalEliteUnits');
+
+            // same thing but user-score__list-item user-score__list-item--orderlevel
+            totalMedals_row_elem.querySelectorAll('.user-score__list-col:not(.user-score__list-col--orderlevel) .user-score__list-item').forEach((item, index) => {
+                const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                dataToSave[`totalMedalsvalue${index}`] = currentValue;
+            });
 
             function saveAviationData(tab, tabName) {
                 tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
@@ -444,6 +474,57 @@ function addSaveAndCompareButtons() {
                     });
                 }
 
+                function compareTotalUnitsData(tab, tabName) {
+                    tab.querySelectorAll('.user-score__list-item').forEach((item, index) => {
+                        const savedValue = data['totalUnitsvalue' + index];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            // if the difference is 0 then don't show the difference
+                            if (difference === 0) {
+                                item.innerHTML = `${currentValue} | ${savedValue}`;
+                            } else {
+                                const differenceText = difference >= 0 ? `+${difference}` : difference;
+                                item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                            }
+                        }
+                    });
+                }
+
+                function compareTotalEliteUnitsData(tab, tabName) {
+                    tab.querySelectorAll('.user-score__list-item').forEach((item, index) => {
+                        const savedValue = data['totalEliteUnitsvalue' + index];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            // if the difference is 0 then don't show the difference
+                            if (difference === 0) {
+                                item.innerHTML = `${currentValue} | ${savedValue}`;
+                            } else {
+                                const differenceText = difference >= 0 ? `+${difference}` : difference;
+                                item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                            }
+                        }
+                    });
+                }
+
+                function compareTotalMedalsData(tab, tabName) {
+                    tab.querySelectorAll('.user-score__list-item').forEach((item, index) => {
+                        const savedValue = data['totalMedalsvalue' + index];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            // if the difference is 0 then don't show the difference
+                            if (difference === 0) {
+                                item.innerHTML = `${currentValue} | ${savedValue}`;
+                            } else {
+                                const differenceText = difference >= 0 ? `+${difference}` : difference;
+                                item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                            }
+                        }
+                    });
+                }
+
                 compareTabData(totalsTab, 'totals');
                 compareTabData(arcadeBattlesTab, 'arcade');
                 compareTabData(realisticBattlesTab, 'realistic');
@@ -459,6 +540,9 @@ function addSaveAndCompareButtons() {
                 compareABNavalData(ab_naval_row_elem, 'abNaval');
                 compareRBNavalData(rb_naval_row_elem, 'rbNaval');
                 compareNavalTotalData(naval_total_row_elem, 'navalTotal');
+                compareTotalUnitsData(totalUnits_row_elem, 'totalUnits');
+                compareTotalEliteUnitsData(totalEliteUnits_row_elem, 'totalEliteUnits');
+                compareTotalMedalsData(totalMedals_row_elem, 'totalMedals');
             });
         };        
 

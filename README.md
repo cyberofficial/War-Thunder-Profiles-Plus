@@ -11,7 +11,7 @@ War Thunder Profiles + is a comprehensive browser extension designed specificall
 ## Download from Browser Extension Storefronts
 Store Versions may be delayed with updates.
 
-Current Version is [`1.0.12`](https://github.com/cyberofficial/War-Thunder-Profiles-Plus/releases/tag/1.0.12)
+Current Version is [`1.0.13`](https://github.com/cyberofficial/War-Thunder-Profiles-Plus/releases/tag/1.0.13)
 
 You can always sideload the extension from the [Releases](https://github.com/cyberofficial/War-Thunder-profiles-Plus/releases) page.
 
@@ -32,8 +32,8 @@ Got an Idea? Head to [Issues](https://github.com/cyberofficial/War-Thunder-profi
 | Ground Stats | Completed | Show the total stats for the Ground statistics tab. |
 | Fleet Stats | Completed | Show the total stats for the Fleet statistics tab. |
 | Vehicles and Rewards | Completed | Show the total stats for Vehicles and Rewards table. |
-| Save stats and compare | I'm Here | Save the current stats on the page and compare with another profile. |
-| Historical  Data | TBD | Save current stats for Historical purposes and see how much changed from your last visit. |
+| Save stats and compare | Completed | Save the current stats on the page and compare with another profile. |
+| Historical  Data | I'm Here 😩 | Save current stats for Historical purposes and see how much changed from your last visit. |
 
 ## Usage
 After installing the extension, navigate to [War Thunder's official website player search](https://warthunder.com/en/community/searchplayers/).

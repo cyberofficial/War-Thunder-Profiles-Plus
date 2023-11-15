@@ -1,8 +1,9 @@
 {
   "manifest_version": 3,
   "name": "War Thunder Profiles +",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "War Thunder Profiles + is a comprehensive browser extension designed specifically for War Thunder enthusiasts.",
+  "permissions": ["storage"],
   "action": {
     "default_icon": {
       "16": "images/icon16.png",
@@ -13,7 +14,7 @@
   "content_scripts": [
     {
       "matches": ["https://warthunder.com/*"],
-      "js": ["content_script.js", "AVIATION.js", "GROUND.js", "FLEET.js", "veh_rewards.js"],
+      "js": ["content_script.js", "AVIATION.js", "GROUND.js", "FLEET.js", "veh_rewards.js", "compare.js"],
       "css": ["style.css"]
     }
   ]

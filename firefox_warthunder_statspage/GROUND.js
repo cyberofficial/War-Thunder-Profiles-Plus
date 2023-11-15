@@ -97,7 +97,7 @@ var AB_GB_TIME_HOURS = AB_GB_TIME.singleNodeValue.innerText.replace(/\D/g,'');
 var RB_GB_TIME_HOURS = RB_GB_TIME.singleNodeValue.innerText.replace(/\D/g,'');
 var SB_GB_TIME_HOURS = SB_GB_TIME.singleNodeValue.innerText.replace(/\D/g,'');
 var GB_TIME_HOURS = parseInt(AB_GB_TIME_HOURS) + parseInt(RB_GB_TIME_HOURS) + parseInt(SB_GB_TIME_HOURS);
-document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab > li:nth-child(6)").innerText = GB_TIME_HOURS + " hours";
+document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab > li:nth-child(6)").innerText = GB_TIME_HOURS.toFixed(0) + " hours";
 
 // Tank battle time
 var AB_GB_TANKS_TIME = document.evaluate('/html/body/div[4]/div[2]/div[3]/div/section/div[2]/div[2]/div[2]/div/div[2]/ul[2]/li[7]', document, null, 9, null);
@@ -123,7 +123,7 @@ var AB_GB_TANKS_TIME_HOURS = AB_GB_TANKS_TIME.singleNodeValue.innerText.replace(
 var RB_GB_TANKS_TIME_HOURS = RB_GB_TANKS_TIME.singleNodeValue.innerText.replace(/\D/g,'');
 var SB_GB_TANKS_TIME_HOURS = SB_GB_TANKS_TIME.singleNodeValue.innerText.replace(/\D/g,'');
 var GB_TANKS_TIME_HOURS = parseInt(AB_GB_TANKS_TIME_HOURS) + parseInt(RB_GB_TANKS_TIME_HOURS) + parseInt(SB_GB_TANKS_TIME_HOURS);
-document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab > li:nth-child(7)").innerText = GB_TANKS_TIME_HOURS + " hours";
+document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab > li:nth-child(7)").innerText = GB_TANKS_TIME_HOURS.toFixed(0) + " hours";
 
 // Tank Destroyer battle time
 var AB_GB_SPGS_TIME = document.evaluate('/html/body/div[4]/div[2]/div[3]/div/section/div[2]/div[2]/div[2]/div/div[2]/ul[2]/li[8]', document, null, 9, null);
@@ -149,7 +149,7 @@ var AB_GB_SPGS_TIME_HOURS = AB_GB_SPGS_TIME.singleNodeValue.innerText.replace(/\
 var RB_GB_SPGS_TIME_HOURS = RB_GB_SPGS_TIME.singleNodeValue.innerText.replace(/\D/g,'');
 var SB_GB_SPGS_TIME_HOURS = SB_GB_SPGS_TIME.singleNodeValue.innerText.replace(/\D/g,'');
 var GB_SPGS_TIME_HOURS = parseInt(AB_GB_SPGS_TIME_HOURS) + parseInt(RB_GB_SPGS_TIME_HOURS) + parseInt(SB_GB_SPGS_TIME_HOURS);
-document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab > li:nth-child(8)").innerText = GB_SPGS_TIME_HOURS + " hours";
+document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab > li:nth-child(8)").innerText = GB_SPGS_TIME_HOURS.toFixed(0) + " hours";
 
 // Heavy Tank battle time
 var AB_GB_HTANKS_TIME = document.evaluate('/html/body/div[4]/div[2]/div[3]/div/section/div[2]/div[2]/div[2]/div/div[2]/ul[2]/li[9]', document, null, 9, null);
@@ -175,7 +175,7 @@ var AB_GB_HTANKS_TIME_HOURS = AB_GB_HTANKS_TIME.singleNodeValue.innerText.replac
 var RB_GB_HTANKS_TIME_HOURS = RB_GB_HTANKS_TIME.singleNodeValue.innerText.replace(/\D/g,'');
 var SB_GB_HTANKS_TIME_HOURS = SB_GB_HTANKS_TIME.singleNodeValue.innerText.replace(/\D/g,'');
 var GB_HTANKS_TIME_HOURS = parseInt(AB_GB_HTANKS_TIME_HOURS) + parseInt(RB_GB_HTANKS_TIME_HOURS) + parseInt(SB_GB_HTANKS_TIME_HOURS);
-document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab > li:nth-child(9)").innerText = GB_HTANKS_TIME_HOURS + " hours";
+document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab > li:nth-child(9)").innerText = GB_HTANKS_TIME_HOURS.toFixed(0) + " hours";
 
 // SPAA battle time
 var AB_GB_SPAA_TIME = document.evaluate('/html/body/div[4]/div[2]/div[3]/div/section/div[2]/div[2]/div[2]/div/div[2]/ul[2]/li[10]', document, null, 9, null);
@@ -201,7 +201,7 @@ var AB_GB_SPAA_TIME_HOURS = AB_GB_SPAA_TIME.singleNodeValue.innerText.replace(/\
 var RB_GB_SPAA_TIME_HOURS = RB_GB_SPAA_TIME.singleNodeValue.innerText.replace(/\D/g,'');
 var SB_GB_SPAA_TIME_HOURS = SB_GB_SPAA_TIME.singleNodeValue.innerText.replace(/\D/g,'');
 var GB_SPAA_TIME_HOURS = parseInt(AB_GB_SPAA_TIME_HOURS) + parseInt(RB_GB_SPAA_TIME_HOURS) + parseInt(SB_GB_SPAA_TIME_HOURS);
-document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab > li:nth-child(10)").innerText = GB_SPAA_TIME_HOURS + " hours";
+document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab > li:nth-child(10)").innerText = GB_SPAA_TIME_HOURS.toFixed(0) + " hours";
 
 // Total targets destroyed
 var AB_GB_TARGETS = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(11)").innerText;
@@ -262,3 +262,7 @@ if (SB_GB_NAVAL_TARGETS == "" || SB_GB_NAVAL_TARGETS == "N/A" || SB_GB_NAVAL_TAR
     SB_GB_NAVAL_TARGETS = "0";
 }
 document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab > li:nth-child(14)").innerText = parseInt(AB_GB_NAVAL_TARGETS) + parseInt(RB_GB_NAVAL_TARGETS) + parseInt(SB_GB_NAVAL_TARGETS);
+
+// total time in ground units
+const TotalTimeWithGroundUnits = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab > li:nth-child(6)").innerText;
+document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > ul > li:nth-child(2)").innerText = "Ground Vehicles (" + TotalTimeWithGroundUnits + ")";

@@ -233,3 +233,7 @@ if (AV_SB_NavalTargetsDestroyed == "" || AV_SB_NavalTargetsDestroyed == "N/A" ||
     AV_SB_NavalTargetsDestroyed = 0;
 }
 document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.totalsTab > li:nth-child(12)").innerText = parseInt(AV_AB_NavalTargetsDestroyed) + parseInt(AV_RB_NavalTargetsDestroyed) + parseInt(AV_SB_NavalTargetsDestroyed);
+
+// total time played in av
+const AV_TotalTimePlayedHours = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.totalsTab > li:nth-child(5)").innerText;
+document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > ul > li.user-rate__fightType-item.active").innerText = "Aviation (" + AV_TotalTimePlayedHours + ")";

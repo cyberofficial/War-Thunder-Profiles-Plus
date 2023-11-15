@@ -272,6 +272,9 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
         loadScript('NAVAL.js', function() {
             console.log('NAVAL.js has been loaded and executed.');
         });
+        loadScript('veh_rewards.js', function() {
+            console.log('veh_rewards.js has been loaded and executed.');
+        });
         
     } else {
         console.log("You are not on a user page. The script for War Thunder Player Stats was not executed.");

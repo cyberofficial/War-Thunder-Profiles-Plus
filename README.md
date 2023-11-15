@@ -25,9 +25,9 @@ Got an Idea? Head to [Issues](https://github.com/cyberofficial/War-Thunder-profi
 | Base Stats | Completed | Shows the total stats for the base statistics. |
 | Aviation Stats | Completed | Show the total stats for the Aviation statistics tab. |
 | Ground Stats | Completed | Show the total stats for the Ground statistics tab. |
-| Fleet Stats | I'm Here | Show the total stats for the Fleet statistics tab. |
-| Vehicles and Rewards | TBD | Show the total stats for Vehicles and Rewards table. |
-| Save stats and compare | TBD | Save the current stats on the page and compare with another profile. |
+| Fleet Stats | Completed | Show the total stats for the Fleet statistics tab. |
+| Vehicles and Rewards | Completed | Show the total stats for Vehicles and Rewards table. |
+| Save stats and compare | I'm Here | Save the current stats on the page and compare with another profile. |
 | Historical  Data | TBD | Save current stats for Historical purposes and see how much changed from your last visit. |
 
 ## Usage

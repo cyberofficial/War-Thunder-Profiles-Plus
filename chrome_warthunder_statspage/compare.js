@@ -1,10 +1,15 @@
 function addSaveAndCompareButtons() {
-    const path = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.totalsTab';
-    const totalsTab = document.querySelector(path);
+    const totalsPath = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.totalsTab';
     const profileNameSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li.user-profile__data-nick';
-    const profileNameElem = document.querySelector(profileNameSelector);
+    const levelSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li:nth-child(4)';
+    const regDateSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li.user-profile__data-regdate';
 
-    if (totalsTab && profileNameElem) {
+    const totalsTab = document.querySelector(totalsPath);
+    const profileNameElem = document.querySelector(profileNameSelector);
+    const levelElem = document.querySelector(levelSelector);
+    const regDateElem = document.querySelector(regDateSelector);
+
+    if (totalsTab && profileNameElem && levelElem && regDateElem) {
         const totalsItem = totalsTab.querySelector('.user-stat__list-item'); // 'Totals' label
 
         // Create and append the Save button
@@ -19,10 +24,11 @@ function addSaveAndCompareButtons() {
                     dataToSave['value' + index] = currentValue;
                 }
             });
-            const profileName = profileNameElem.textContent.trim();
-            dataToSave['profileName'] = profileName;
+            dataToSave['profileName'] = profileNameElem.textContent.trim();
+            dataToSave['level'] = levelElem.textContent.trim();
+            dataToSave['regDate'] = regDateElem.textContent.trim();
             chrome.storage.local.set(dataToSave);
-            console.log('All values and profile name saved:', dataToSave);
+            console.log('All values, profile name, level, and registration date saved:', dataToSave);
         };
 
         // Create and append the Compare button
@@ -31,9 +37,10 @@ function addSaveAndCompareButtons() {
         compareButton.style.cursor = 'pointer';
         compareButton.onclick = function() {
             chrome.storage.local.get(null, function(data) {
-                if (data.profileName !== undefined) {
-                    profileNameElem.textContent = `${profileNameElem.textContent.trim()} | Comparing with ${data.profileName}`;
-                }
+                profileNameElem.textContent = `${profileNameElem.textContent.trim()} | Comparing with ${data.profileName}`;
+                levelElem.textContent = `${levelElem.textContent.trim()} | ${data.profileName}: ${data.level}`;
+                regDateElem.textContent = `${regDateElem.textContent.trim()} | ${data.profileName}: ${data.regDate}`;
+
                 totalsTab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
                     if (index > 0 && data['value' + index] !== undefined) {
                         const savedValue = data['value' + index];

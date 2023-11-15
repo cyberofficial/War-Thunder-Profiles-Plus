@@ -8,3 +8,11 @@
   color: #eb6709;
   font-size: 18px;
 }
+
+.positive {
+  color: green;
+}
+
+.negative {
+  color: red;
+}

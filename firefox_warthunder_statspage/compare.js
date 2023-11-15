@@ -23,7 +23,9 @@ function addSaveAndCompareButtons() {
     const totalUnits_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(2)';
     const totalEliteUnits_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(3)';
     const totalMedals_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(4)';
-
+    const totalUnits = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(2) > li.user-score__list-item.user-score__list-item--plane';
+    const totalEliteUnitsNumber = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(3) > li.user-score__list-item.user-score__list-item--elitplanes';
+    const totalMedalsNumber = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(4) > li.user-score__list-item.user-score__list-item--orderlevel';
 
     // Querying elements
     const totalsTab = document.querySelector(totalsPath);
@@ -49,6 +51,9 @@ function addSaveAndCompareButtons() {
     const totalUnits_row_elem = document.querySelector(totalUnits_row);
     const totalEliteUnits_row_elem = document.querySelector(totalEliteUnits_row);
     const totalMedals_row_elem = document.querySelector(totalMedals_row);
+    const totalUnits_elem = document.querySelector(totalUnits);
+    const totalEliteUnitsNumber_elem = document.querySelector(totalEliteUnitsNumber);
+    const totalMedalsNumber_elem = document.querySelector(totalMedalsNumber);
 
     if (totalsTab && profileNameElem && levelElem && regDateElem && accountAgeElem && arcadeBattlesTab && realisticBattlesTab && simulationBattlesTab) {
         const totalsItem = totalsTab.querySelector('.user-stat__list-item');
@@ -101,6 +106,14 @@ function addSaveAndCompareButtons() {
                 const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
                 dataToSave[`totalUnitsvalue${index}`] = currentValue;
             });
+
+            // parse the total units value, the text looks like "TOTAL UNITS: 2322" just want the number
+            const totalUnitsValue = parseInt(totalUnits_elem.textContent.split(' ')[2].replace(/,/g, ''), 10);
+            dataToSave['totalUnitsValue'] = totalUnitsValue;
+            const totalEliteUnitsNumberValue = parseInt(totalEliteUnitsNumber_elem.textContent.split(' ')[2].replace(/,/g, ''), 10);
+            dataToSave['totalEliteUnitsNumberValue'] = totalEliteUnitsNumberValue;
+            const totalMedalsNumberValue = parseInt(totalMedalsNumber_elem.textContent.split(' ')[2].replace(/,/g, ''), 10);
+            dataToSave['totalMedalsNumberValue'] = totalMedalsNumberValue;
 
             // save the column data for total units
             saveTabData(totalUnits_row_elem, 'totalUnits');
@@ -525,6 +538,40 @@ function addSaveAndCompareButtons() {
                     });
                 }
 
+                const totalUnitsValue = parseInt(totalUnits_elem.textContent.split(' ')[2].replace(/,/g, ''), 10);
+                const savedTotalUnitsValue = data['totalUnitsValue'];
+                const totalUnitsDifference = totalUnitsValue - savedTotalUnitsValue;
+                // if the difference is 0 then don't show the difference
+                if (totalUnitsDifference === 0) {
+                    totalUnits_elem.innerHTML = `TOTAL UNITS: ${totalUnitsValue}`;
+                } else {
+                    const totalUnitsDifferenceText = totalUnitsDifference >= 0 ? `+${totalUnitsDifference}` : totalUnitsDifference;
+                    totalUnits_elem.innerHTML = `TOTAL UNITS: ${totalUnitsValue} | ${savedTotalUnitsValue} | <span class="${totalUnitsDifference >= 0 ? 'positive' : 'negative'}">${totalUnitsDifferenceText}</span>`;
+                }
+
+                const totalEliteUnitsNumberValue = parseInt(totalEliteUnitsNumber_elem.textContent.split(' ')[2].replace(/,/g, ''), 10);
+                const savedTotalEliteUnitsNumberValue = data['totalEliteUnitsNumberValue'];
+                const totalEliteUnitsNumberDifference = totalEliteUnitsNumberValue - savedTotalEliteUnitsNumberValue;
+                // if the difference is 0 then don't show the difference
+                if (totalEliteUnitsNumberDifference === 0) {
+                    totalEliteUnitsNumber_elem.innerHTML = `ELITE UNITS: ${totalEliteUnitsNumberValue}`;
+                } else {
+                    const totalEliteUnitsNumberDifferenceText = totalEliteUnitsNumberDifference >= 0 ? `+${totalEliteUnitsNumberDifference}` : totalEliteUnitsNumberDifference;
+                    totalEliteUnitsNumber_elem.innerHTML = `ELITE UNITS: ${totalEliteUnitsNumberValue} | ${savedTotalEliteUnitsNumberValue} | <span class="${totalEliteUnitsNumberDifference >= 0 ? 'positive' : 'negative'}">${totalEliteUnitsNumberDifferenceText}</span>`;
+                }
+
+                const totalMedalsNumberValue = parseInt(totalMedalsNumber_elem.textContent.split(' ')[2].replace(/,/g, ''), 10);
+                const savedTotalMedalsNumberValue = data['totalMedalsNumberValue'];
+                const totalMedalsNumberDifference = totalMedalsNumberValue - savedTotalMedalsNumberValue;
+                // if the difference is 0 then don't show the difference
+                if (totalMedalsNumberDifference === 0) {
+                    totalMedalsNumber_elem.innerHTML = `Total Medals: ${totalMedalsNumberValue}`;
+                } else {
+                    const totalMedalsNumberDifferenceText = totalMedalsNumberDifference >= 0 ? `+${totalMedalsNumberDifference}` : totalMedalsNumberDifference;
+                    totalMedalsNumber_elem.innerHTML = `Total Medals: ${totalMedalsNumberValue} | ${savedTotalMedalsNumberValue} | <span class="${totalMedalsNumberDifference >= 0 ? 'positive' : 'negative'}">${totalMedalsNumberDifferenceText}</span>`;
+                }
+
+
                 compareTabData(totalsTab, 'totals');
                 compareTabData(arcadeBattlesTab, 'arcade');
                 compareTabData(realisticBattlesTab, 'realistic');
@@ -543,6 +590,7 @@ function addSaveAndCompareButtons() {
                 compareTotalUnitsData(totalUnits_row_elem, 'totalUnits');
                 compareTotalEliteUnitsData(totalEliteUnits_row_elem, 'totalEliteUnits');
                 compareTotalMedalsData(totalMedals_row_elem, 'totalMedals');
+                
             });
         };        
 

@@ -5,8 +5,7 @@ War Thunder Profiles + is a comprehensive browser extension designed specificall
 
 ## Preview
 
-<img src="https://github.com/cyberofficial/War-Thunder-Profiles-Plus/assets/19499442/ae7ba536-1433-4c55-90cf-9e3244b256f7" width="50%" />
-
+<img src="https://github.com/cyberofficial/War-Thunder-Profiles-Plus/assets/19499442/59370018-814e-4916-9cbf-cb10f4a10772" width="65%" />
 
 ## Download from Browser Extension Storefronts
 Store Versions may be delayed with updates.

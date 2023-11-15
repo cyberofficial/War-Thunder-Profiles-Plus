@@ -24,6 +24,8 @@ function addSaveAndCompareButtons() {
 
     if (totalsTab && profileNameElem && levelElem && regDateElem && accountAgeElem && arcadeBattlesTab && realisticBattlesTab && simulationBattlesTab) {
         const totalsItem = totalsTab.querySelector('.user-stat__list-item');
+        // select content__header
+        const sectionHeader = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.content__title");
 
         // Creating Save and Compare buttons
         const saveButton = document.createElement('span');
@@ -126,8 +128,10 @@ function addSaveAndCompareButtons() {
         };
 
         // Appending buttons to the totals item
-        totalsItem.appendChild(saveButton);
-        totalsItem.appendChild(compareButton);
+        //totalsItem.appendChild(saveButton);
+        //totalsItem.appendChild(compareButton);
+        sectionHeader.appendChild(saveButton);
+        sectionHeader.appendChild(compareButton);
     }
 }
 

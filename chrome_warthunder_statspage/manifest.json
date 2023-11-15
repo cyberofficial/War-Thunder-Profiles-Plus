@@ -15,7 +15,8 @@
     {
       "matches": ["https://warthunder.com/*"],
       "js": ["content_script.js", "AVIATION.js", "GROUND.js", "FLEET.js", "veh_rewards.js", "compare.js"],
-      "css": ["style.css"]
+      "css": ["style.css"],
+      "run_at": "document_end"
     }
   ]
 }

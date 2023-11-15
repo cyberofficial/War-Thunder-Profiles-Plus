@@ -16,3 +16,12 @@
 .negative {
   color: red;
 }
+
+.content__title {
+  margin-bottom: 40px;
+  font-family: "RobotoCondensed",sans-serif;
+  font-size: 32px !important;
+  font-weight: 800;
+  line-height: 1.17;
+  color: #cfd8dc;
+}

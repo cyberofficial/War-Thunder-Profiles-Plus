@@ -6,7 +6,7 @@ War Thunder Profiles + is a comprehensive browser extension designed specificall
 ## Download from Browser Extension Storefronts
 Store Versions may be delayed with updates.
 
-Current Version is [`1.0.7`](https://github.com/cyberofficial/War-Thunder-Profiles-Plus/releases/tag/1.0.7)
+Current Version is [`1.0.8`](https://github.com/cyberofficial/War-Thunder-Profiles-Plus/releases/tag/1.0.8)
 
 You can always sideload the extension from the [Releases](https://github.com/cyberofficial/War-Thunder-profiles-Plus/releases) page.
 

@@ -266,6 +266,9 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
         loadScript('AVIATION.js', function() {
             console.log('AVIATION.js has been loaded and executed.');
         });
+        loadScript('GROUND.js', function() {
+            console.log('GROUND.js has been loaded and executed.');
+        });
         
     } else {
         console.log("You are not on a user page. The script for War Thunder Player Stats was not executed.");

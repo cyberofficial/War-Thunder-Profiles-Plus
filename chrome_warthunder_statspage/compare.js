@@ -9,6 +9,10 @@ function addSaveAndCompareButtons() {
     const realisticBattlesSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.historyFightTab';
     const simulationBattlesSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.simulationFightTab';
     const avatarSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > div';
+    const aviation_AB_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.arcadeFightTab.is-visible';
+    const aviation_RB_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.historyFightTab';
+    const aviation_SB_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.simulationFightTab';
+    const aviation_total_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.totalsTab';
 
 
     // Querying elements
@@ -21,6 +25,10 @@ function addSaveAndCompareButtons() {
     const realisticBattlesTab = document.querySelector(realisticBattlesSelector);
     const simulationBattlesTab = document.querySelector(simulationBattlesSelector);
     const avatarElem = document.querySelector(avatarSelector);
+    const aviation_AB_row_elem = document.querySelector(aviation_AB_row);
+    const aviation_RB_row_elem = document.querySelector(aviation_RB_row);
+    const aviation_SB_row_elem = document.querySelector(aviation_SB_row);
+    const aviation_total_row_elem = document.querySelector(aviation_total_row);
 
     if (totalsTab && profileNameElem && levelElem && regDateElem && accountAgeElem && arcadeBattlesTab && realisticBattlesTab && simulationBattlesTab) {
         const totalsItem = totalsTab.querySelector('.user-stat__list-item');
@@ -57,18 +65,65 @@ function addSaveAndCompareButtons() {
             let dataToSave = {};
             function saveTabData(tab, tabName) {
                 tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                    if (index > 0) {
+                    const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                    dataToSave[`${tabName}value${index}`] = currentValue;
+                });
+            }
+            
+            // Saving data from each tab
+            saveTabData(totalsTab, 'totals');
+            saveTabData(arcadeBattlesTab, 'arcade');
+            saveTabData(realisticBattlesTab, 'realistic');
+            saveTabData(simulationBattlesTab, 'simulation');
+
+            function saveAviationData(tab, tabName) {
+                tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                    if (index > -1) {
                         const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
                         dataToSave[`${tabName}value${index}`] = currentValue;
                     }
                 });
             }
 
-            // Saving data from each tab
-            saveTabData(totalsTab, 'totals');
-            saveTabData(arcadeBattlesTab, 'arcade');
-            saveTabData(realisticBattlesTab, 'realistic');
-            saveTabData(simulationBattlesTab, 'simulation');
+            // save the column data for aviation AB
+            saveAviationData(aviation_AB_row_elem, 'aviationAB');
+
+            function saveAviationRBData(tab, tabName) {
+                tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                    if (index > -1) {
+                        const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                        dataToSave[`${tabName}value${index}`] = currentValue;
+                    }
+                });
+            }
+
+            // save the column data for aviation RB
+            saveAviationRBData(aviation_RB_row_elem, 'aviationRB');
+
+            function saveAviationSBData(tab, tabName) {
+                tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                    if (index > -1) {
+                        const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                        dataToSave[`${tabName}value${index}`] = currentValue;
+                    }
+                });
+            }
+
+            // save the column data for aviation SB
+            saveAviationSBData(aviation_SB_row_elem, 'aviationSB');
+
+            function saveAviationTotalData(tab, tabName) {
+                tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                    if (index > -1) {
+                        const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                        dataToSave[`${tabName}value${index}`] = currentValue;
+                    }
+                });
+            }
+
+            // save the column data for aviation total
+            saveAviationTotalData(aviation_total_row_elem, 'aviationTotal');
+
 
             // Saving additional profile data
             dataToSave['profileName'] = profileNameElem.textContent.trim();
@@ -158,11 +213,64 @@ function addSaveAndCompareButtons() {
                         }
                     });
                 }
-        
+
+                // Compare aviation AB data with #bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.arcadeFightTab.is-visible
+                function AB_compareTabData(tab, tabName) {
+                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                        const savedValue = data[`${tabName}value${index}`];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            const differenceText = difference >= 0 ? `+${difference}` : difference;
+                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                        }
+                    });
+                }
+
+                function compareAviationRBData(tab, tabName) {
+                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                        const savedValue = data[`${tabName}value${index}`];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            const differenceText = difference >= 0 ? `+${difference}` : difference;
+                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                        }
+                    });
+                }
+
+                function compareAviationSBData(tab, tabName) {
+                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                        const savedValue = data[`${tabName}value${index}`];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            const differenceText = difference >= 0 ? `+${difference}` : difference;
+                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                        }
+                    });
+                }
+
+                function compareAviationTotalData(tab, tabName) {
+                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                        const savedValue = data[`${tabName}value${index}`];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            const differenceText = difference >= 0 ? `+${difference}` : difference;
+                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                        }
+                    });
+                }
+
                 compareTabData(totalsTab, 'totals');
                 compareTabData(arcadeBattlesTab, 'arcade');
                 compareTabData(realisticBattlesTab, 'realistic');
                 compareTabData(simulationBattlesTab, 'simulation');
+                AB_compareTabData(aviation_AB_row_elem, 'aviationAB');
+                compareAviationRBData(aviation_RB_row_elem, 'aviationRB');
+                compareAviationSBData(aviation_SB_row_elem, 'aviationSB');
+                compareAviationTotalData(aviation_total_row_elem, 'aviationTotal');
             });
         };        
 

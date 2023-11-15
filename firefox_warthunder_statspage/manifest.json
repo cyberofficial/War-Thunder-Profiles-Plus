@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "War Thunder Profiles +",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Adds more info the stats page for war thunder player cards.",
   "permissions": ["storage"],
   "action": {

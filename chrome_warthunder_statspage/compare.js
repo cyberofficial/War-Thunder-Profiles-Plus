@@ -13,6 +13,13 @@ function addSaveAndCompareButtons() {
     const aviation_RB_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.historyFightTab';
     const aviation_SB_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.simulationFightTab';
     const aviation_total_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.totalsTab';
+    const ground_AB_row =  '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.arcadeFightTab.is-visible';
+    const ground_RB_row =  '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.historyFightTab';
+    const ground_SB_row =  '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.simulationFightTab';
+    const ground_total_row =  '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab';
+    const ab_naval_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.arcadeFightTab.is-visible';
+    const rb_naval_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.historyFightTab';
+    const naval_total_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.totalsTab';
 
 
     // Querying elements
@@ -29,6 +36,13 @@ function addSaveAndCompareButtons() {
     const aviation_RB_row_elem = document.querySelector(aviation_RB_row);
     const aviation_SB_row_elem = document.querySelector(aviation_SB_row);
     const aviation_total_row_elem = document.querySelector(aviation_total_row);
+    const ground_AB_row_elem = document.querySelector(ground_AB_row);
+    const ground_RB_row_elem = document.querySelector(ground_RB_row);
+    const ground_SB_row_elem = document.querySelector(ground_SB_row);
+    const ground_total_row_elem = document.querySelector(ground_total_row);
+    const ab_naval_row_elem = document.querySelector(ab_naval_row);
+    const rb_naval_row_elem = document.querySelector(rb_naval_row);
+    const naval_total_row_elem = document.querySelector(naval_total_row);
 
     if (totalsTab && profileNameElem && levelElem && regDateElem && accountAgeElem && arcadeBattlesTab && realisticBattlesTab && simulationBattlesTab) {
         const totalsItem = totalsTab.querySelector('.user-stat__list-item');
@@ -124,6 +138,89 @@ function addSaveAndCompareButtons() {
             // save the column data for aviation total
             saveAviationTotalData(aviation_total_row_elem, 'aviationTotal');
 
+            function saveGroundABData(tab, tabName) {
+                tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                    if (index > -1) {
+                        const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                        dataToSave[`${tabName}value${index}`] = currentValue;
+                    }
+                });
+            }
+
+            // save the column data for ground AB
+            saveGroundABData(ground_AB_row_elem, 'groundAB');
+
+            function saveGroundRBData(tab, tabName) {
+                tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                    if (index > -1) {
+                        const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                        dataToSave[`${tabName}value${index}`] = currentValue;
+                    }
+                });
+            }
+
+            // save the column data for ground RB
+            saveGroundRBData(ground_RB_row_elem, 'groundRB');
+
+            function saveGroundSBData(tab, tabName) {
+                tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                    if (index > -1) {
+                        const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                        dataToSave[`${tabName}value${index}`] = currentValue;
+                    }
+                });
+            }
+
+            // save the column data for ground SB
+            saveGroundSBData(ground_SB_row_elem, 'groundSB');
+
+            function saveGroundTotalData(tab, tabName) {
+                tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                    if (index > -1) {
+                        const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                        dataToSave[`${tabName}value${index}`] = currentValue;
+                    }
+                });
+            }
+
+            // save the column data for ground total
+            saveGroundTotalData(ground_total_row_elem, 'groundTotal');
+
+            function saveABNavalData(tab, tabName) {
+                tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                    if (index > -1) {
+                        const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                        dataToSave['abNavalvalue' + index] = currentValue;
+                    }
+                });
+            }
+
+            // save the column data for AB Naval
+            saveABNavalData(ab_naval_row_elem, 'abNaval');
+
+            function saveRBNavalData(tab, tabName) {
+                tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                    if (index > -1) {
+                        const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                        dataToSave['rbNavalvalue' + index] = currentValue;
+                    }
+                });
+            }
+
+            // save the column data for RB Naval
+            saveRBNavalData(rb_naval_row_elem, 'rbNaval');
+
+            function saveNavalTotalData(tab, tabName) {
+                tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                    if (index > -1) {
+                        const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
+                        dataToSave['navalTotalvalue' + index] = currentValue;
+                    }
+                });
+            }
+
+            // save the column data for Naval total
+            saveNavalTotalData(naval_total_row_elem, 'navalTotal');
 
             // Saving additional profile data
             dataToSave['profileName'] = profileNameElem.textContent.trim();
@@ -263,6 +360,90 @@ function addSaveAndCompareButtons() {
                     });
                 }
 
+                function compareGroundABData(tab, tabName) {
+                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                        const savedValue = data[`${tabName}value${index}`];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            const differenceText = difference >= 0 ? `+${difference}` : difference;
+                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                        }
+                    });
+                }
+
+                function compareGroundRBData(tab, tabName) {
+                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                        const savedValue = data[`${tabName}value${index}`];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            const differenceText = difference >= 0 ? `+${difference}` : difference;
+                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                        }
+                    });
+                }
+
+                function compareGroundSBData(tab, tabName) {
+                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                        const savedValue = data[`${tabName}value${index}`];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            const differenceText = difference >= 0 ? `+${difference}` : difference;
+                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                        }
+                    });
+                }
+
+                function compareGroundTotalData(tab, tabName) {
+                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                        const savedValue = data[`${tabName}value${index}`];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            const differenceText = difference >= 0 ? `+${difference}` : difference;
+                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                        }
+                    });
+                }
+
+                function compareABNavalData(tab, tabName) {
+                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                        const savedValue = data['abNavalvalue' + index];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            const differenceText = difference >= 0 ? `+${difference}` : difference;
+                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                        }
+                    });
+                }
+
+                function compareRBNavalData(tab, tabName) {
+                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                        const savedValue = data['rbNavalvalue' + index];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            const differenceText = difference >= 0 ? `+${difference}` : difference;
+                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                        }
+                    });
+                }
+
+                function compareNavalTotalData(tab, tabName) {
+                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                        const savedValue = data['navalTotalvalue' + index];
+                        if (savedValue !== undefined) {
+                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                            const difference = currentValue - savedValue;
+                            const differenceText = difference >= 0 ? `+${difference}` : difference;
+                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                        }
+                    });
+                }
+
                 compareTabData(totalsTab, 'totals');
                 compareTabData(arcadeBattlesTab, 'arcade');
                 compareTabData(realisticBattlesTab, 'realistic');
@@ -271,6 +452,13 @@ function addSaveAndCompareButtons() {
                 compareAviationRBData(aviation_RB_row_elem, 'aviationRB');
                 compareAviationSBData(aviation_SB_row_elem, 'aviationSB');
                 compareAviationTotalData(aviation_total_row_elem, 'aviationTotal');
+                compareGroundABData(ground_AB_row_elem, 'groundAB');
+                compareGroundRBData(ground_RB_row_elem, 'groundRB');
+                compareGroundSBData(ground_SB_row_elem, 'groundSB');
+                compareGroundTotalData(ground_total_row_elem, 'groundTotal');
+                compareABNavalData(ab_naval_row_elem, 'abNaval');
+                compareRBNavalData(rb_naval_row_elem, 'rbNaval');
+                compareNavalTotalData(naval_total_row_elem, 'navalTotal');
             });
         };        
 

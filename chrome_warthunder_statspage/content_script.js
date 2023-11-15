@@ -92,7 +92,21 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
             // Append the totalsTab ul to the stat row
             statRow.appendChild(totalsTab);
         });
-                
+
+        // clean up things first, if the html element contains "N/A" then set that value to 0, so we'll need to search for the N/A and replace it with 0
+        const StatsTable = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div");
+        StatsTable.innerHTML = StatsTable.innerHTML.replace(/N\/A/g, "0");
+        // if document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(7)") is 0 then make it 0m
+        if (document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(7)").innerText == "0") {
+            document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(7)").innerText = "0m";
+        }
+        if (document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.historyFightTab > li:nth-child(7)").innerText == "0") {
+            document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.historyFightTab > li:nth-child(7)").innerText = "0m";
+        }
+        if (document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.simulationFightTab > li:nth-child(7)").innerText == "0") {
+            document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.simulationFightTab > li:nth-child(7)").innerText = "0m";
+        }
+        
         // Varibles Section
         var Arcade_victories = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(2)").innerText;
         // if the innertext is empty. says 0, or say "N/A" then set it to 0
@@ -209,7 +223,7 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
             RB_Ground_Targets_Destroyed = "0";
         }
         //console.log(RB_Ground_Targets_Destroyed);
-        var SB_Ground_Targets_Destroyed = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.simulationFightTab > li:nth-child(9)").innerHTML;
+        var SB_Ground_Targets_Destroyed = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.simulationFightTab > li:nth-child(9)").innerText;
         if (SB_Ground_Targets_Destroyed == "" || SB_Ground_Targets_Destroyed == "0" || SB_Ground_Targets_Destroyed == "N/A") {
             SB_Ground_Targets_Destroyed = "0";
         }
@@ -248,7 +262,9 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
         // Convert playtime to hours then show it as a string with commas and set the text of the element to "Play Time: " + the total play time
         PlayTime.innerText = ((AB_PlayTime_In_Minutes + RB_PlayTime_In_Minutes + SB_PlayTime_In_Minutes) / 60).toLocaleString() + " hours";
         AirTargetsDestroyed.innerText = (parseInt(AB_Air_Targets_Destroyed) + parseInt(RB_Air_Targets_Destroyed) + parseInt(SB_Air_Targets_Destroyed));
+        // ground targets destroyed total
         GroundTargetsDestroyed.innerText = (parseInt(AB_Ground_Targets_Destroyed) + parseInt(RB_Ground_Targets_Destroyed) + parseInt(SB_Ground_Targets_Destroyed));
+        // console.log(parseInt(AB_Ground_Targets_Destroyed) + " " + parseInt(RB_Ground_Targets_Destroyed) + " " + SB_Ground_Targets_Destroyed.innerText);
         NavalTargetsDestroyed.innerText = (parseInt(AB_Ships_Destroyed) + parseInt(RB_Ships_Destroyed) + parseInt(SB_Ships_Destroyed));
 
         // Convert reg date to hours
@@ -275,6 +291,7 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
         loadScript('veh_rewards.js', function() {
             console.log('veh_rewards.js has been loaded and executed.');
         });
+
         loadScript('compare.js', function() {
             console.log('compare.js has been loaded and executed.');
         });

@@ -39,6 +39,11 @@ function addSaveAndCompareButtons() {
         compareButton.textContent = ' (Compare)';
         compareButton.style.cursor = 'pointer';
         compareButton.onclick = function() {
+            // check if document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li.user-profile__data-nick") has compare in it, if so ignore
+            const profileName = profileNameElem.textContent.trim();
+            if (profileName.includes('Comparing with')) {
+                return;
+            }
             chrome.storage.local.get(null, function(data) {
                 profileNameElem.textContent = `${profileNameElem.textContent.trim()} | Comparing with ${data.profileName}`;
                 levelElem.textContent = `${levelElem.textContent.trim()} | ${data.profileName}: ${data.level}`;

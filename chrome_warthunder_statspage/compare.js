@@ -33,6 +33,12 @@ function addSaveAndCompareButtons() {
         saveButton.style.cursor = 'pointer';
         const compareButton = document.createElement('span');
         compareButton.textContent = ' (Compare)';
+        // if there is a saved named from compare then make it say (Compare with <profilenamehere>)
+        getData(function(data) {
+            if (data.profileName) {
+                compareButton.textContent = ` (Compare with ${data.profileName})`;
+            }
+        });
         compareButton.style.cursor = 'pointer';
 
         // Save functionality
@@ -75,29 +81,57 @@ function addSaveAndCompareButtons() {
             if (avatarElem && avatarElem.querySelector('img')) {
                 dataToSave['avatarUrl'] = avatarElem.querySelector('img').src;
             }
+            const clanTagElem = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div:nth-child(1) > ul > li.user-profile__data-clan a");
+            if (clanTagElem) {
+                dataToSave['clanTag'] = clanTagElem.textContent.trim();
+                dataToSave['clanUrl'] = clanTagElem.href;
+            }
 
             saveData(dataToSave);
+            
+            // update compare button text
+            compareButton.textContent = ` (Compare with ${dataToSave.profileName})`;
         };
 
         // Compare functionality
         compareButton.onclick = function() {
             getData(function(data) {
-                // Preventing multiple comparisons
+                // Preventing multiple comparisons by checking if there's already a cloned profile
+                const existingClonedProfile = document.getElementById('cloned-profile');
+                if (existingClonedProfile) {
+                    existingClonedProfile.remove();
+                }
+        
                 if (profileNameElem.textContent.includes('Comparing with')) {
                     return;
                 }
+        
+                // Clone the profile section
+                const profileSection = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile");
+                const clonedProfile = profileSection.cloneNode(true);
+                clonedProfile.id = 'cloned-profile'; // Assign an ID to the cloned profile for easy identification and removal
+        
+                // Update the cloned profile with compared data
+                if (data.avatarUrl) {
+                    clonedProfile.querySelector('.user-profile__ava img').src = data.avatarUrl;
+                    clonedProfile.querySelector('.user-profile__ava img').alt = data.profileName;
+                }
 
-                // Updating profile information
-                profileNameElem.textContent = `${profileNameElem.textContent.trim()} | Comparing with ${data.profileName}`;
-                levelElem.textContent = `${levelElem.textContent.trim()} | ${data.profileName}: ${data.level}`;
-                regDateElem.textContent = `${regDateElem.textContent.trim()} | ${data.profileName}: ${data.regDate}`;
-
-                // Adding new account age comparison
-                const newAccountAgeElem = document.createElement('h3');
-                newAccountAgeElem.className = 'account-age';
-                newAccountAgeElem.textContent = `${data.profileName}: ${data.accountAge}`;
-                accountAgeElem.parentNode.insertBefore(newAccountAgeElem, accountAgeElem.nextSibling);
-
+                const clonedClanTagElem = clonedProfile.querySelector('.user-profile__data-clan a');
+                if (clonedClanTagElem) {
+                    clonedClanTagElem.textContent = data.clanTag;
+                    clonedClanTagElem.href = data.clanUrl;
+                }
+        
+                clonedProfile.querySelector('li.user-profile__data-nick').textContent = data.profileName;
+                clonedProfile.querySelector('li:nth-child(4)').textContent = `${data.level}`;
+                clonedProfile.querySelector('li.user-profile__data-regdate').textContent = `${data.regDate}`;
+                clonedProfile.querySelector('h3.account-age').textContent = `${data.accountAge}`;
+        
+                // Insert the cloned profile next to the original
+                profileSection.parentNode.insertBefore(clonedProfile, profileSection.nextSibling);
+        
+                // Comparing data from each tab
                 function compareTabData(tab, tabName) {
                     tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
                         if (index > 0 && data[`${tabName}value${index}`] !== undefined) {
@@ -109,29 +143,27 @@ function addSaveAndCompareButtons() {
                         }
                     });
                 }
-
-                // Comparing and displaying avatars
-                if (data.avatarUrl) {
-                    const savedAvatarElem = document.createElement('div');
-                    savedAvatarElem.className = 'user-profile__ava';
-                    savedAvatarElem.innerHTML = `<img src="${data.avatarUrl}" alt="${data.profileName}">`;
-                    
-                    avatarElem.insertAdjacentElement('afterend', savedAvatarElem);
-                }
-
-                // Comparing data from each tab
+        
                 compareTabData(totalsTab, 'totals');
                 compareTabData(arcadeBattlesTab, 'arcade');
                 compareTabData(realisticBattlesTab, 'realistic');
                 compareTabData(simulationBattlesTab, 'simulation');
             });
-        };
+        };        
 
         // Appending buttons to the totals item
         //totalsItem.appendChild(saveButton);
         //totalsItem.appendChild(compareButton);
         sectionHeader.appendChild(saveButton);
         sectionHeader.appendChild(compareButton);
+        // add a button to wipe data
+        const wipeButton = document.createElement('span');
+        wipeButton.textContent = ' (Wipe Data)';
+        wipeButton.style.cursor = 'pointer';
+        wipeButton.onclick = function() {
+            wipeData();
+        }
+        sectionHeader.appendChild(wipeButton);
     }
 }
 
@@ -157,6 +189,33 @@ function getData(callback) {
         chrome.storage.local.get(null, callback);
     } else if (typeof browser !== 'undefined' && browser.storage) {
         browser.storage.local.get().then(callback, (error) => {
+            console.error(`Error: ${error}`);
+        });
+    } else {
+        console.error('Storage API not found');
+    }
+}
+
+// function to wipe all data
+function wipeData() {
+    if (typeof chrome !== 'undefined' && chrome.storage) {
+        chrome.storage.local.clear(function() {
+            console.log('Data wiped from Chrome storage');
+            // update compare button text
+            const compareButton = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.content__title > span:nth-child(2)");
+            compareButton.textContent = ' (Compare)';
+            // refresh page
+            location.reload();
+        });
+    } else if (typeof browser !== 'undefined' && browser.storage) {
+        browser.storage.local.clear().then(() => {
+            console.log('Data wiped from Firefox storage');
+            // update compare button text
+            const compareButton = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.content__title > span:nth-child(2)");
+            compareButton.textContent = ' (Compare)';
+            // refresh page
+            location.reload();
+        }, (error) => {
             console.error(`Error: ${error}`);
         });
     } else {

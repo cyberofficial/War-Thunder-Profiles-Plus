@@ -22,6 +22,14 @@ function addSaveAndCompareButtons() {
         compareButton.style.cursor = 'pointer';
 
         saveButton.onclick = function() {
+            // restore original values then save
+            profileNameElem.textContent = profileNameElem.textContent.split(' | ')[0];
+            levelElem.textContent = levelElem.textContent.split(' | ')[0];
+            regDateElem.textContent = regDateElem.textContent.split(' | ')[0];
+            if (document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > h3:nth-child(7)")) {
+                document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > h3:nth-child(7)").parentNode.removeChild(document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > h3:nth-child(7)"));
+            }
+            
             let dataToSave = {};
             totalsTab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
                 if (index > 0) {

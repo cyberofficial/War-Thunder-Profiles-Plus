@@ -1,32 +1,48 @@
 function addSaveAndCompareButtons() {
     // Selectors for various parts of the page
-    const totalsPath = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.totalsTab';
-    const profileNameSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li.user-profile__data-nick';
-    const levelSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li:nth-child(4)';
-    const regDateSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li.user-profile__data-regdate';
-    const accountAgeSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > h3';
-    const arcadeBattlesSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible';
-    const realisticBattlesSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.historyFightTab';
-    const simulationBattlesSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.simulationFightTab';
-    const avatarSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > div';
-    const aviation_AB_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.arcadeFightTab.is-visible';
-    const aviation_RB_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.historyFightTab';
-    const aviation_SB_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.simulationFightTab';
-    const aviation_total_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.totalsTab';
-    const ground_AB_row =  '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.arcadeFightTab.is-visible';
-    const ground_RB_row =  '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.historyFightTab';
-    const ground_SB_row =  '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.simulationFightTab';
-    const ground_total_row =  '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab';
-    const ab_naval_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.arcadeFightTab.is-visible';
-    const rb_naval_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.historyFightTab';
-    const naval_total_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.totalsTab';
-    const totalUnits_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(2)';
-    const totalEliteUnits_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(3)';
-    const totalMedals_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(4)';
-    const totalUnits = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(2) > li.user-score__list-item.user-score__list-item--plane';
-    const totalEliteUnitsNumber = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(3) > li.user-score__list-item.user-score__list-item--elitplanes';
-    const totalMedalsNumber = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(4) > li.user-score__list-item.user-score__list-item--orderlevel';
-
+    const baseSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info';
+    const userProfileSelector = `${baseSelector} > div.user-profile`;
+    const userRateSelector = `${baseSelector} > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div`;
+    const userRateFightTypeSelector = `${baseSelector} > div.community__user-rate.user-rate > div.user-rate__fightType > div`;
+    
+    // User Profile Information
+    const profileNameSelector = `${userProfileSelector} > ul > li.user-profile__data-nick`;
+    const levelSelector = `${userProfileSelector} > ul > li:nth-child(4)`;
+    const regDateSelector = `${userProfileSelector} > ul > li.user-profile__data-regdate`;
+    const accountAgeSelector = `${userProfileSelector} > ul > h3`;
+    const avatarSelector = `${userProfileSelector} > div`;
+    
+    // User Stats
+    const totalsPath = `${userRateSelector} > ul.totalsTab`;
+    const arcadeBattlesSelector = `${userRateSelector} > ul.arcadeFightTab.is-visible`;
+    const realisticBattlesSelector = `${userRateSelector} > ul.historyFightTab`;
+    const simulationBattlesSelector = `${userRateSelector} > ul.simulationFightTab`;
+    
+    // Aviation Rows
+    const aviation_AB_row = `${userRateFightTypeSelector} > div.user-stat__list-row.is-active > ul.arcadeFightTab.is-visible`;
+    const aviation_RB_row = `${userRateFightTypeSelector} > div.user-stat__list-row.is-active > ul.historyFightTab`;
+    const aviation_SB_row = `${userRateFightTypeSelector} > div.user-stat__list-row.is-active > ul.simulationFightTab`;
+    const aviation_total_row = `${userRateFightTypeSelector} > div.user-stat__list-row.is-active > ul.totalsTab`;
+    
+    // Ground Rows
+    const ground_AB_row = `${userRateFightTypeSelector} > div:nth-child(2) > ul.arcadeFightTab.is-visible`;
+    const ground_RB_row = `${userRateFightTypeSelector} > div:nth-child(2) > ul.historyFightTab`;
+    const ground_SB_row = `${userRateFightTypeSelector} > div:nth-child(2) > ul.simulationFightTab`;
+    const ground_total_row = `${userRateFightTypeSelector} > div:nth-child(2) > ul.totalsTab`;
+    
+    // Naval Rows
+    const ab_naval_row = `${userRateFightTypeSelector} > div:nth-child(3) > ul.arcadeFightTab.is-visible`;
+    const rb_naval_row = `${userRateFightTypeSelector} > div:nth-child(3) > ul.historyFightTab`;
+    const naval_total_row = `${userRateFightTypeSelector} > div:nth-child(3) > ul.totalsTab`;
+    
+    // Total Units
+    const totalUnits_row = `${baseSelector} > div.user-profile__score.user-score > ul:nth-child(2)`;
+    const totalEliteUnits_row = `${baseSelector} > div.user-profile__score.user-score > ul:nth-child(3)`;
+    const totalMedals_row = `${baseSelector} > div.user-profile__score.user-score > ul:nth-child(4)`;
+    const totalUnits = `${totalUnits_row} > li.user-score__list-item.user-score__list-item--plane`;
+    const totalEliteUnitsNumber = `${totalEliteUnits_row} > li.user-score__list-item.user-score__list-item--elitplanes`;
+    const totalMedalsNumber = `${totalMedals_row} > li.user-score__list-item.user-score__list-item--orderlevel`;
+    
     // Querying elements
     const totalsTab = document.querySelector(totalsPath);
     const profileNameElem = document.querySelector(profileNameSelector);

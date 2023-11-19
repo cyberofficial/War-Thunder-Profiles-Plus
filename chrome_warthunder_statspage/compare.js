@@ -318,300 +318,90 @@ function addSaveAndCompareButtons() {
         // Compare functionality
         compareButton.onclick = function() {
             getData(function(data) {
-                // Preventing multiple comparisons by checking if there's already a cloned profile
                 const existingClonedProfile = document.getElementById('cloned-profile');
                 if (existingClonedProfile) {
                     existingClonedProfile.remove();
                 }
 
-                if (profileNameElem.textContent.includes('Comparing with')) {
+                if (profileNameElem.textContent.includes('Comparing with') || !data.profileName) {
                     return;
                 }
 
-                // if there is no data saved then return
-                if (!data.profileName) {
-                    return;
-                }
-
-                // Clone the profile section
                 const profileSection = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile");
                 const clonedProfile = profileSection.cloneNode(true);
-                clonedProfile.id = 'cloned-profile'; // Assign an ID to the cloned profile for easy identification and removal
+                clonedProfile.id = 'cloned-profile';
 
-                // Update the cloned profile with compared data
-                if (data.avatarUrl) {
-                    clonedProfile.querySelector('.user-profile__ava img').src = data.avatarUrl;
-                    clonedProfile.querySelector('.user-profile__ava img').alt = data.profileName;
-                }
-
-                const clonedClanTagElem = clonedProfile.querySelector('.user-profile__data-clan a');
-                if (clonedClanTagElem) {
-                    clonedClanTagElem.textContent = data.clanTag;
-                    clonedClanTagElem.href = data.clanUrl;
-                }
-
-                // convert currentSystemTime to readable date from stored currentSystemTime
-                const date = new Date(data.currentSystemTime);
-                clonedProfile.querySelector('li.user-profile__data-nick').textContent = 'Comparing with: ' + data.profileName + ' | From ' + date.toLocaleString();
-                clonedProfile.querySelector('li:nth-child(4)').textContent = `${data.level}`;
-                clonedProfile.querySelector('li.user-profile__data-regdate').textContent = `${data.regDate}`;
-                clonedProfile.querySelector('h3.account-age').textContent = `${data.accountAge}`;
-
-                // Insert the cloned profile next to the original
+                updateProfile(clonedProfile, data);
                 profileSection.parentNode.insertBefore(clonedProfile, profileSection.nextSibling);
 
-                // Comparing data from each tab
-                function compareTabData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        if (index > 0 && data[`${tabName}value${index}`] !== undefined) {
-                            const savedValue = data[`${tabName}value${index}`];
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
+                // Compare tab data
+                compareTabData(totalsTab, 'totals', data);
+                compareTabData(arcadeBattlesTab, 'arcade', data);
+                compareTabData(realisticBattlesTab, 'realistic', data);
+                compareTabData(simulationBattlesTab, 'simulation', data);
+                compareTabData(aviation_AB_row_elem, 'aviationAB', data);
+                compareTabData(aviation_RB_row_elem, 'aviationRB', data);
+                compareTabData(aviation_SB_row_elem, 'aviationSB', data);
+                compareTabData(aviation_total_row_elem, 'aviationTotal', data);
+                compareTabData(ground_AB_row_elem, 'groundAB', data);
+                compareTabData(ground_RB_row_elem, 'groundRB', data);
+                compareTabData(ground_SB_row_elem, 'groundSB', data);
+                compareTabData(ground_total_row_elem, 'groundTotal', data);
+                compareTabData(ab_naval_row_elem, 'abNaval', data);
+                compareTabData(rb_naval_row_elem, 'rbNaval', data);
+                compareTabData(naval_total_row_elem, 'navalTotal', data);
 
-                // Compare aviation AB data with #bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.arcadeFightTab.is-visible
-                function AB_compareTabData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareAviationRBData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareAviationSBData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareAviationTotalData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareGroundABData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareGroundRBData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareGroundSBData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareGroundTotalData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareABNavalData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data['abNavalvalue' + index];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareRBNavalData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data['rbNavalvalue' + index];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareNavalTotalData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data['navalTotalvalue' + index];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareTotalUnitsData(tab, tabName) {
-                    tab.querySelectorAll('.user-score__list-item').forEach((item, index) => {
-                        const savedValue = data['totalUnitsvalue' + index];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            // if the difference is 0 then don't show the difference
-                            if (difference === 0) {
-                                item.innerHTML = `${currentValue} | ${savedValue}`;
-                            } else {
-                                const differenceText = difference >= 0 ? `+${difference}` : difference;
-                                item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                            }
-                        }
-                    });
-                }
-
-                function compareTotalEliteUnitsData(tab, tabName) {
-                    tab.querySelectorAll('.user-score__list-item').forEach((item, index) => {
-                        const savedValue = data['totalEliteUnitsvalue' + index];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            // if the difference is 0 then don't show the difference
-                            if (difference === 0) {
-                                item.innerHTML = `${currentValue} | ${savedValue}`;
-                            } else {
-                                const differenceText = difference >= 0 ? `+${difference}` : difference;
-                                item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                            }
-                        }
-                    });
-                }
-
-                function compareTotalMedalsData(tab, tabName) {
-                    tab.querySelectorAll('.user-score__list-item').forEach((item, index) => {
-                        const savedValue = data['totalMedalsvalue' + index];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            // if the difference is 0 then don't show the difference
-                            if (difference === 0) {
-                                item.innerHTML = `${currentValue} | ${savedValue}`;
-                            } else {
-                                const differenceText = difference >= 0 ? `+${difference}` : difference;
-                                item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                            }
-                        }
-                    });
-                }
-
-                const totalUnitsValue = parseInt(totalUnits_elem.textContent.split(' ')[2].replace(/,/g, ''), 10);
-                const savedTotalUnitsValue = data['totalUnitsValue'];
-                const totalUnitsDifference = totalUnitsValue - savedTotalUnitsValue;
-                // if the difference is 0 then don't show the difference
-                if (totalUnitsDifference === 0) {
-                    totalUnits_elem.innerHTML = `TOTAL UNITS: ${totalUnitsValue}`;
-                } else {
-                    const totalUnitsDifferenceText = totalUnitsDifference >= 0 ? `+${totalUnitsDifference}` : totalUnitsDifference;
-                    totalUnits_elem.innerHTML = `TOTAL UNITS: ${totalUnitsValue} | ${savedTotalUnitsValue} | <span class="${totalUnitsDifference >= 0 ? 'positive' : 'negative'}">${totalUnitsDifferenceText}</span>`;
-                }
-
-                const totalEliteUnitsNumberValue = parseInt(totalEliteUnitsNumber_elem.textContent.split(' ')[2].replace(/,/g, ''), 10);
-                const savedTotalEliteUnitsNumberValue = data['totalEliteUnitsNumberValue'];
-                const totalEliteUnitsNumberDifference = totalEliteUnitsNumberValue - savedTotalEliteUnitsNumberValue;
-                // if the difference is 0 then don't show the difference
-                if (totalEliteUnitsNumberDifference === 0) {
-                    totalEliteUnitsNumber_elem.innerHTML = `ELITE UNITS: ${totalEliteUnitsNumberValue}`;
-                } else {
-                    const totalEliteUnitsNumberDifferenceText = totalEliteUnitsNumberDifference >= 0 ? `+${totalEliteUnitsNumberDifference}` : totalEliteUnitsNumberDifference;
-                    totalEliteUnitsNumber_elem.innerHTML = `ELITE UNITS: ${totalEliteUnitsNumberValue} | ${savedTotalEliteUnitsNumberValue} | <span class="${totalEliteUnitsNumberDifference >= 0 ? 'positive' : 'negative'}">${totalEliteUnitsNumberDifferenceText}</span>`;
-                }
-
-                const totalMedalsNumberValue = parseInt(totalMedalsNumber_elem.textContent.split(' ')[2].replace(/,/g, ''), 10);
-                const savedTotalMedalsNumberValue = data['totalMedalsNumberValue'];
-                const totalMedalsNumberDifference = totalMedalsNumberValue - savedTotalMedalsNumberValue;
-                // if the difference is 0 then don't show the difference
-                if (totalMedalsNumberDifference === 0) {
-                    totalMedalsNumber_elem.innerHTML = `Total Medals: ${totalMedalsNumberValue}`;
-                } else {
-                    const totalMedalsNumberDifferenceText = totalMedalsNumberDifference >= 0 ? `+${totalMedalsNumberDifference}` : totalMedalsNumberDifference;
-                    totalMedalsNumber_elem.innerHTML = `Total Medals: ${totalMedalsNumberValue} | ${savedTotalMedalsNumberValue} | <span class="${totalMedalsNumberDifference >= 0 ? 'positive' : 'negative'}">${totalMedalsNumberDifferenceText}</span>`;
-                }
-
-
-                compareTabData(totalsTab, 'totals');
-                compareTabData(arcadeBattlesTab, 'arcade');
-                compareTabData(realisticBattlesTab, 'realistic');
-                compareTabData(simulationBattlesTab, 'simulation');
-                AB_compareTabData(aviation_AB_row_elem, 'aviationAB');
-                compareAviationRBData(aviation_RB_row_elem, 'aviationRB');
-                compareAviationSBData(aviation_SB_row_elem, 'aviationSB');
-                compareAviationTotalData(aviation_total_row_elem, 'aviationTotal');
-                compareGroundABData(ground_AB_row_elem, 'groundAB');
-                compareGroundRBData(ground_RB_row_elem, 'groundRB');
-                compareGroundSBData(ground_SB_row_elem, 'groundSB');
-                compareGroundTotalData(ground_total_row_elem, 'groundTotal');
-                compareABNavalData(ab_naval_row_elem, 'abNaval');
-                compareRBNavalData(rb_naval_row_elem, 'rbNaval');
-                compareNavalTotalData(naval_total_row_elem, 'navalTotal');
-                compareTotalUnitsData(totalUnits_row_elem, 'totalUnits');
-                compareTotalEliteUnitsData(totalEliteUnits_row_elem, 'totalEliteUnits');
-                compareTotalMedalsData(totalMedals_row_elem, 'totalMedals');
-
+                // Compare vehicles and rewards data
+                compareData(totalUnits_row_elem, 'totalUnits', data);
+                compareData(totalEliteUnits_row_elem, 'totalEliteUnits', data);
+                compareData(totalMedals_row_elem, 'totalMedals', data);
             });
         };
+
+        function updateProfile(clonedProfile, data) {
+            if (data.avatarUrl) {
+                clonedProfile.querySelector('.user-profile__ava img').src = data.avatarUrl;
+                clonedProfile.querySelector('.user-profile__ava img').alt = data.profileName;
+            }
+
+            const clonedClanTagElem = clonedProfile.querySelector('.user-profile__data-clan a');
+            if (clonedClanTagElem) {
+                clonedClanTagElem.textContent = data.clanTag;
+                clonedClanTagElem.href = data.clanUrl;
+            }
+
+            const date = new Date(data.currentSystemTime);
+            clonedProfile.querySelector('li.user-profile__data-nick').textContent = 'Comparing with: ' + data.profileName + ' | From ' + date.toLocaleString();
+            clonedProfile.querySelector('li:nth-child(4)').textContent = `${data.level}`;
+            clonedProfile.querySelector('li.user-profile__data-regdate').textContent = `${data.regDate}`;
+            clonedProfile.querySelector('h3.account-age').textContent = `${data.accountAge}`;
+        }
+
+        function compareTabData(tab, tabName, data) {
+            tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                const savedValue = data[`${tabName}value${index}`];
+                if (savedValue !== undefined) {
+                    const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                    const difference = currentValue - savedValue;
+                    const differenceText = difference >= 0 ? `+${difference}` : difference;
+                    item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                }
+            });
+        }
+
+        function compareData(tab, tabName, data) {
+            tab.querySelectorAll('.user-stat__list-item, .user-score__list-item').forEach((item, index) => {
+                const savedValue = data[`${tabName}value${index}`];
+                if (savedValue !== undefined) {
+                    const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                    const difference = currentValue - savedValue;
+                    const differenceText = difference >= 0 ? `+${difference}` : difference;
+                    item.innerHTML = difference === 0
+                        ? `${currentValue} | ${savedValue}`
+                        : `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                }
+            });
+        }
 
         // Appending buttons to the totals item
         //totalsItem.appendChild(saveButton);

@@ -245,7 +245,7 @@ function addSaveAndCompareButtons() {
             // save the column data for ground total
             saveGroundTotalData(ground_total_row_elem, 'groundTotal');
 
-            function saveABNavalData(tab, tabName) {
+            function saveABNavalData(tab) {
                 tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
                     if (index > -1) {
                         const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
@@ -257,7 +257,7 @@ function addSaveAndCompareButtons() {
             // save the column data for AB Naval
             saveABNavalData(ab_naval_row_elem, 'abNaval');
 
-            function saveRBNavalData(tab, tabName) {
+            function saveRBNavalData(tab) {
                 tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
                     if (index > -1) {
                         const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
@@ -269,7 +269,7 @@ function addSaveAndCompareButtons() {
             // save the column data for RB Naval
             saveRBNavalData(rb_naval_row_elem, 'rbNaval');
 
-            function saveNavalTotalData(tab, tabName) {
+            function saveNavalTotalData(tab) {
                 tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
                     if (index > -1) {
                         const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
@@ -286,6 +286,7 @@ function addSaveAndCompareButtons() {
             dataToSave['level'] = levelElem.textContent.trim();
             dataToSave['regDate'] = regDateElem.textContent.trim();
             dataToSave['accountAge'] = accountAgeElem.textContent.trim();
+            dataToSave['currentSystemTime'] = Date.now();
 
             // Saving avatar URL
             // remove the extra avatar if it exists
@@ -322,7 +323,7 @@ function addSaveAndCompareButtons() {
                 if (existingClonedProfile) {
                     existingClonedProfile.remove();
                 }
-        
+
                 if (profileNameElem.textContent.includes('Comparing with')) {
                     return;
                 }
@@ -331,12 +332,12 @@ function addSaveAndCompareButtons() {
                 if (!data.profileName) {
                     return;
                 }
-        
+
                 // Clone the profile section
                 const profileSection = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile");
                 const clonedProfile = profileSection.cloneNode(true);
                 clonedProfile.id = 'cloned-profile'; // Assign an ID to the cloned profile for easy identification and removal
-        
+
                 // Update the cloned profile with compared data
                 if (data.avatarUrl) {
                     clonedProfile.querySelector('.user-profile__ava img').src = data.avatarUrl;
@@ -348,15 +349,17 @@ function addSaveAndCompareButtons() {
                     clonedClanTagElem.textContent = data.clanTag;
                     clonedClanTagElem.href = data.clanUrl;
                 }
-        
-                clonedProfile.querySelector('li.user-profile__data-nick').textContent = data.profileName;
+
+                // convert currentSystemTime to readable date from stored currentSystemTime
+                const date = new Date(data.currentSystemTime);
+                clonedProfile.querySelector('li.user-profile__data-nick').textContent = 'Comparing with: ' + data.profileName + ' | From ' + date.toLocaleString();
                 clonedProfile.querySelector('li:nth-child(4)').textContent = `${data.level}`;
                 clonedProfile.querySelector('li.user-profile__data-regdate').textContent = `${data.regDate}`;
                 clonedProfile.querySelector('h3.account-age').textContent = `${data.accountAge}`;
-        
+
                 // Insert the cloned profile next to the original
                 profileSection.parentNode.insertBefore(clonedProfile, profileSection.nextSibling);
-        
+
                 // Comparing data from each tab
                 function compareTabData(tab, tabName) {
                     tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
@@ -606,9 +609,9 @@ function addSaveAndCompareButtons() {
                 compareTotalUnitsData(totalUnits_row_elem, 'totalUnits');
                 compareTotalEliteUnitsData(totalEliteUnits_row_elem, 'totalEliteUnits');
                 compareTotalMedalsData(totalMedals_row_elem, 'totalMedals');
-                
+
             });
-        };        
+        };
 
         // Appending buttons to the totals item
         //totalsItem.appendChild(saveButton);

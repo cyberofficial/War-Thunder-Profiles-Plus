@@ -37,10 +37,86 @@ function loadScript(scriptName, callback) {
     document.head.appendChild(script);
   }
 
-  // check for cloudflare or Redirecting text
+// check for cloudflare or Redirecting text
 if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.documentElement.innerHTML.includes("Redirecting")) {
-    // if the url doesn't userinfo, then it's not a user page so we just exit the script
-    if (window.location.href.includes("userinfo")) {
+    // If on the search results page, run search indicator logic directly
+    if (window.location.href.includes("/community/searchplayers")) {
+        // Utility to get all saved profiles from storage
+        function getAllProfiles(callback) {
+            if (typeof chrome !== 'undefined' && chrome.storage) {
+                chrome.storage.local.get(['profiles'], function(result) {
+                    callback(result.profiles || []);
+                });
+            } else if (typeof browser !== 'undefined' && browser.storage) {
+                browser.storage.local.get('profiles').then((result) => {
+                    callback(result.profiles || []);
+                }, () => callback([]));
+            } else {
+                callback([]);
+            }
+        }
+
+        // Wait for DOM ready
+        function onReady(fn) {
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                setTimeout(fn, 1);
+            } else {
+                document.addEventListener('DOMContentLoaded', fn);
+            }
+        }
+
+        onReady(function() {
+            // Find the search results table using a robust selector
+            let table = document.querySelector('#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section:nth-child(3) > div > table');
+            if (!table) {
+                table = document.querySelector('table.leaderboards.search-players');
+            }
+            if (!table) {
+                console.log('[WT Saved Indicator] Table not found');
+                return;
+            }
+            console.log('[WT Saved Indicator] Table found:', table);
+            
+            getAllProfiles(function(profiles) {
+                if (!profiles || !profiles.length) {
+                    console.log('[WT Saved Indicator] No profiles found');
+                    return;
+                }
+                // Build a Set of trimmed, non-empty, case-sensitive saved profile names
+                const savedNames = new Set(
+                    profiles
+                        .map(p => (typeof p.profileName === 'string' ? p.profileName.trim() : ''))
+                        .filter(name => name.length > 0)
+                );
+                console.log('[WT Saved Indicator] Saved profile names:', Array.from(savedNames));
+                
+                // For each row, check the player name
+                const rows = table.querySelectorAll('tbody tr');
+                console.log('[WT Saved Indicator] Found rows:', rows.length);
+                
+                rows.forEach(row => {
+                    const nameCell = row.querySelector('td.scp_td2 a');
+                    if (!nameCell) return;
+                    const playerName = nameCell.textContent.trim();
+                    console.log('[WT Saved Indicator] Checking player name:', playerName);
+                    if (savedNames.has(playerName)) {
+                        console.log('[WT Saved Indicator] Match found for:', playerName);
+                        // Add indicator if not already present
+                        if (!nameCell.parentNode.querySelector('.saved-profile-indicator')) {
+                            const indicator = document.createElement('span');
+                            indicator.textContent = ' (Save Data Found)';
+                            indicator.className = 'saved-profile-indicator';
+                            indicator.style.color = '#10b981';
+                            indicator.style.fontWeight = 'bold';
+                            indicator.style.fontSize = '12px';
+                            indicator.style.marginLeft = '6px';
+                            nameCell.parentNode.appendChild(indicator);
+                        }
+                    }
+                });
+            });
+        });
+    } else if (window.location.href.includes("userinfo")) {
         // this is the user page, so we can execute the script
 
         // Create the new ul element with the 'totalsTab' class

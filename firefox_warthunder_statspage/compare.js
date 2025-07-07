@@ -1,32 +1,130 @@
 function addSaveAndCompareButtons() {
-    // Selectors for various parts of the page
-    const totalsPath = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.totalsTab';
-    const profileNameSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li.user-profile__data-nick';
-    const levelSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li:nth-child(4)';
-    const regDateSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > li.user-profile__data-regdate';
-    const accountAgeSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > h3';
-    const arcadeBattlesSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible';
-    const realisticBattlesSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.historyFightTab';
-    const simulationBattlesSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.simulationFightTab';
-    const avatarSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > div';
-    const aviation_AB_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.arcadeFightTab.is-visible';
-    const aviation_RB_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.historyFightTab';
-    const aviation_SB_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.simulationFightTab';
-    const aviation_total_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.totalsTab';
-    const ground_AB_row =  '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.arcadeFightTab.is-visible';
-    const ground_RB_row =  '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.historyFightTab';
-    const ground_SB_row =  '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.simulationFightTab';
-    const ground_total_row =  '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.totalsTab';
-    const ab_naval_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.arcadeFightTab.is-visible';
-    const rb_naval_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.historyFightTab';
-    const naval_total_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.totalsTab';
-    const totalUnits_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(2)';
-    const totalEliteUnits_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(3)';
-    const totalMedals_row = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(4)';
-    const totalUnits = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(2) > li.user-score__list-item.user-score__list-item--plane';
-    const totalEliteUnitsNumber = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(3) > li.user-score__list-item.user-score__list-item--elitplanes';
-    const totalMedalsNumber = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile__score.user-score > ul:nth-child(4) > li.user-score__list-item.user-score__list-item--orderlevel';
+        // Export Data button
+        const exportButton = document.createElement('button');
+        exportButton.textContent = 'Export Data';
+        exportButton.style.cursor = 'pointer';
+        exportButton.style.background = '#10b981';
+        exportButton.style.color = '#fff';
+        exportButton.style.border = 'none';
+        exportButton.style.borderRadius = '5px';
+        exportButton.style.padding = '3px 10px';
+        exportButton.style.fontWeight = '500';
+        exportButton.style.fontSize = '13px';
+        exportButton.style.marginRight = '6px';
+        exportButton.style.transition = 'background 0.2s';
+        exportButton.onmouseover = () => exportButton.style.background = '#059669';
+        exportButton.onmouseout = () => exportButton.style.background = '#10b981';
+        exportButton.onclick = function() {
+            getAllProfiles(function(profiles) {
+                const dataStr = JSON.stringify(profiles, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'warthunder_profiles_backup.json';
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+            });
+        };
 
+        // Import Data button
+        const importButton = document.createElement('button');
+        importButton.textContent = 'Import Data';
+        importButton.style.cursor = 'pointer';
+        importButton.style.background = '#818cf8';
+        importButton.style.color = '#fff';
+        importButton.style.border = 'none';
+        importButton.style.borderRadius = '5px';
+        importButton.style.padding = '3px 10px';
+        importButton.style.fontWeight = '500';
+        importButton.style.fontSize = '13px';
+        importButton.style.marginRight = '6px';
+        importButton.style.transition = 'background 0.2s';
+        importButton.onmouseover = () => importButton.style.background = '#6366f1';
+        importButton.onmouseout = () => importButton.style.background = '#818cf8';
+        importButton.onclick = function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'application/json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    try {
+                        const imported = JSON.parse(evt.target.result);
+                        if (!Array.isArray(imported)) throw new Error('Invalid format');
+                        if (typeof chrome !== 'undefined' && chrome.storage) {
+                            chrome.storage.local.set({ profiles: imported }, function() {
+                                alert('Profiles imported successfully!');
+                                location.reload();
+                            });
+                        } else if (typeof browser !== 'undefined' && browser.storage) {
+                            browser.storage.local.set({ profiles: imported }).then(() => {
+                                alert('Profiles imported successfully!');
+                                location.reload();
+                            }, (error) => {
+                                alert('Error importing: ' + error);
+                            });
+                        } else {
+                            alert('Storage API not found');
+                        }
+                    } catch (err) {
+                        alert('Invalid file or format.');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        };
+    // Selectors for various parts of the page
+    const baseSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info';
+    const userProfileSelector = `${baseSelector} > div.user-profile`;
+    const userRateSelector = `${baseSelector} > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div`;
+    const userRateFightTypeSelector = `${baseSelector} > div.community__user-rate.user-rate > div.user-rate__fightType > div`;
+    
+    // User Profile Information
+    const profileNameSelector = `${userProfileSelector} > ul > li.user-profile__data-nick`;
+    const levelSelector = `${userProfileSelector} > ul > li:nth-child(4)`;
+    const regDateSelector = `${userProfileSelector} > ul > li.user-profile__data-regdate`;
+    const accountAgeSelector = `${userProfileSelector} > ul > h3`;
+    const avatarSelector = `${userProfileSelector} > div`;
+    
+    // User Stats
+    const totalsPath = `${userRateSelector} > ul.totalsTab`;
+    const arcadeBattlesSelector = `${userRateSelector} > ul.arcadeFightTab.is-visible`;
+    const realisticBattlesSelector = `${userRateSelector} > ul.historyFightTab`;
+    const simulationBattlesSelector = `${userRateSelector} > ul.simulationFightTab`;
+    
+    // Aviation Rows
+    const aviation_AB_row = `${userRateFightTypeSelector} > div.user-stat__list-row.is-active > ul.arcadeFightTab.is-visible`;
+    const aviation_RB_row = `${userRateFightTypeSelector} > div.user-stat__list-row.is-active > ul.historyFightTab`;
+    const aviation_SB_row = `${userRateFightTypeSelector} > div.user-stat__list-row.is-active > ul.simulationFightTab`;
+    const aviation_total_row = `${userRateFightTypeSelector} > div.user-stat__list-row.is-active > ul.totalsTab`;
+    
+    // Ground Rows
+    const ground_AB_row = `${userRateFightTypeSelector} > div:nth-child(2) > ul.arcadeFightTab.is-visible`;
+    const ground_RB_row = `${userRateFightTypeSelector} > div:nth-child(2) > ul.historyFightTab`;
+    const ground_SB_row = `${userRateFightTypeSelector} > div:nth-child(2) > ul.simulationFightTab`;
+    const ground_total_row = `${userRateFightTypeSelector} > div:nth-child(2) > ul.totalsTab`;
+    
+    // Naval Rows
+    const ab_naval_row = `${userRateFightTypeSelector} > div:nth-child(3) > ul.arcadeFightTab.is-visible`;
+    const rb_naval_row = `${userRateFightTypeSelector} > div:nth-child(3) > ul.historyFightTab`;
+    const naval_total_row = `${userRateFightTypeSelector} > div:nth-child(3) > ul.totalsTab`;
+    
+    // Total Units
+    const totalUnits_row = `${baseSelector} > div.user-profile__score.user-score > ul:nth-child(2)`;
+    const totalEliteUnits_row = `${baseSelector} > div.user-profile__score.user-score > ul:nth-child(3)`;
+    const totalMedals_row = `${baseSelector} > div.user-profile__score.user-score > ul:nth-child(4)`;
+    const totalUnits = `${totalUnits_row} > li.user-score__list-item.user-score__list-item--plane`;
+    const totalEliteUnitsNumber = `${totalEliteUnits_row} > li.user-score__list-item.user-score__list-item--elitplanes`;
+    const totalMedalsNumber = `${totalMedals_row} > li.user-score__list-item.user-score__list-item--orderlevel`;
+    
     // Querying elements
     const totalsTab = document.querySelector(totalsPath);
     const profileNameElem = document.querySelector(profileNameSelector);
@@ -60,22 +158,183 @@ function addSaveAndCompareButtons() {
         // select content__header
         const sectionHeader = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.content__title");
 
-        // Creating Save and Compare buttons
-        const saveButton = document.createElement('span');
-        saveButton.textContent = ' (Save)';
-        saveButton.style.cursor = 'pointer';
-        // give save the id of saveBtn
+        // Creating Save and Compare buttons with modern styles
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
         saveButton.id = 'saveBtn';
-        const compareButton = document.createElement('span');
-        compareButton.textContent = ' (Compare)';
+        saveButton.style.cursor = 'pointer';
+        saveButton.style.background = '#2563eb';
+        saveButton.style.color = '#fff';
+        saveButton.style.border = 'none';
+        saveButton.style.borderRadius = '6px';
+        saveButton.style.padding = '3px 10px';
+        saveButton.style.fontWeight = '500';
+        saveButton.style.fontSize = '13px';
+        saveButton.style.marginRight = '6px';
+        saveButton.style.boxShadow = '0 1px 2px rgba(0,0,0,0.04)';
+        saveButton.style.transition = 'background 0.2s';
+        saveButton.onmouseover = () => saveButton.style.background = '#1d4ed8';
+        saveButton.onmouseout = () => saveButton.style.background = '#2563eb';
+
+        // Compare dropdown and button
+        const compareDropdown = document.createElement('select');
+        compareDropdown.id = 'compareDropdown';
+        compareDropdown.style.marginLeft = '10px';
+        compareDropdown.style.display = 'none';
+        compareDropdown.style.borderRadius = '5px';
+        compareDropdown.style.padding = '3px 7px';
+        compareDropdown.style.border = '1px solid #d1d5db';
+        compareDropdown.style.background = '#e5edfa';
+        compareDropdown.style.color = '#1a1a1a';
+        compareDropdown.style.fontWeight = '500';
+        compareDropdown.style.fontSize = '13px';
+        compareDropdown.style.marginRight = '6px';
+
+        const compareButton = document.createElement('button');
+        compareButton.textContent = 'Compare';
         compareButton.id = 'compareBtn';
-        // if there is a saved named from compare then make it say (Compare with <profilenamehere>)
-        getData(function(data) {
-            if (data.profileName) {
-                compareButton.textContent = ` (Compare with ${data.profileName})`;
+        compareButton.style.cursor = 'pointer';
+        compareButton.style.background = '#f3f4f6';
+        compareButton.style.color = '#111827';
+        compareButton.style.border = '1px solid #d1d5db';
+        compareButton.style.borderRadius = '6px';
+        compareButton.style.padding = '3px 10px';
+        compareButton.style.fontWeight = '500';
+        compareButton.style.fontSize = '13px';
+        compareButton.style.marginRight = '6px';
+        compareButton.style.transition = 'background 0.2s';
+        compareButton.onmouseover = () => compareButton.style.background = '#e5e7eb';
+        compareButton.onmouseout = () => compareButton.style.background = '#f3f4f6';
+
+        // Populate dropdown with saved profiles
+        getAllProfiles(function(profiles) {
+            compareDropdown.innerHTML = '';
+            let deleteBtn = document.getElementById('deleteProfileBtn');
+            let wipeButton = document.getElementById('wipeBtn');
+            compareDropdown.style.display = 'none';
+            compareButton.style.display = 'none';
+            if (wipeButton) wipeButton.style.display = 'none';
+            // Remove delete button if it exists
+            if (deleteBtn && deleteBtn.parentNode) {
+                deleteBtn.parentNode.removeChild(deleteBtn);
+                deleteBtn = null;
+            }
+
+            if (profiles.length > 0) {
+                compareDropdown.style.display = 'inline';
+                profiles.forEach((profile, idx) => {
+                    const date = new Date(profile._savedAt || profile.currentSystemTime || Date.now());
+                    const option = document.createElement('option');
+                    option.value = idx;
+                    option.textContent = `${profile.profileName || 'Profile'} (${date.toLocaleString()})`;
+                    compareDropdown.appendChild(option);
+                });
+                compareButton.style.display = '';
+                if (wipeButton) wipeButton.style.display = '';
+                // Add delete button only if profiles exist
+                if (!deleteBtn) {
+                    deleteBtn = document.createElement('button');
+                    deleteBtn.id = 'deleteProfileBtn';
+                    deleteBtn.textContent = 'Delete Selected';
+                    deleteBtn.style.cursor = 'pointer';
+                    deleteBtn.style.background = '#f87171';
+                    deleteBtn.style.color = '#fff';
+                    deleteBtn.style.border = 'none';
+                    deleteBtn.style.borderRadius = '5px';
+                    deleteBtn.style.padding = '3px 10px';
+                    deleteBtn.style.fontWeight = '500';
+                    deleteBtn.style.fontSize = '13px';
+                    deleteBtn.style.marginRight = '6px';
+                    deleteBtn.style.transition = 'background 0.2s';
+                    deleteBtn.onmouseover = () => deleteBtn.style.background = '#ef4444';
+                    deleteBtn.onmouseout = () => deleteBtn.style.background = '#f87171';
+                    compareDropdown.parentNode.insertBefore(deleteBtn, compareDropdown.nextSibling);
+                }
+                deleteBtn.style.display = '';
+                deleteBtn.onclick = function() {
+                    const idx = compareDropdown.selectedIndex;
+                    if (idx < 0 || profiles.length === 0) return;
+                    profiles.splice(idx, 1);
+                    if (typeof chrome !== 'undefined' && chrome.storage) {
+                        chrome.storage.local.set({ profiles }, function() {
+                            console.log('Profile deleted.');
+                            getAllProfiles(function(newProfiles) {
+                                compareDropdown.innerHTML = '';
+                                if (deleteBtn && deleteBtn.parentNode) {
+                                    deleteBtn.parentNode.removeChild(deleteBtn);
+                                }
+                                if (newProfiles.length > 0) {
+                                    newProfiles.forEach((profile, idx) => {
+                                        const date = new Date(profile._savedAt || profile.currentSystemTime || Date.now());
+                                        const option = document.createElement('option');
+                                        option.value = idx;
+                                        option.textContent = `${profile.profileName || 'Profile'} (${date.toLocaleString()})`;
+                                        compareDropdown.appendChild(option);
+                                    });
+                                    compareDropdown.style.display = '';
+                                    compareButton.style.display = '';
+                                    if (wipeButton) wipeButton.style.display = '';
+                                    // Re-add delete button
+                                    if (!document.getElementById('deleteProfileBtn')) {
+                                        let newDeleteBtn = document.createElement('span');
+                                        newDeleteBtn.id = 'deleteProfileBtn';
+                                        newDeleteBtn.textContent = ' (Delete Selected)';
+                                        newDeleteBtn.style.cursor = 'pointer';
+                                        newDeleteBtn.style.marginLeft = '10px';
+                                        compareDropdown.parentNode.insertBefore(newDeleteBtn, compareDropdown.nextSibling);
+                                        newDeleteBtn.onclick = deleteBtn.onclick;
+                                    }
+                                } else {
+                                    compareDropdown.style.display = 'none';
+                                    compareButton.style.display = 'none';
+                                    if (wipeButton) wipeButton.style.display = 'none';
+                                }
+                            });
+                        });
+                    } else if (typeof browser !== 'undefined' && browser.storage) {
+                        browser.storage.local.set({ profiles }).then(() => {
+                            console.log('Profile deleted.');
+                            getAllProfiles(function(newProfiles) {
+                                compareDropdown.innerHTML = '';
+                                if (deleteBtn && deleteBtn.parentNode) {
+                                    deleteBtn.parentNode.removeChild(deleteBtn);
+                                }
+                                if (newProfiles.length > 0) {
+                                    newProfiles.forEach((profile, idx) => {
+                                        const date = new Date(profile._savedAt || profile.currentSystemTime || Date.now());
+                                        const option = document.createElement('option');
+                                        option.value = idx;
+                                        option.textContent = `${profile.profileName || 'Profile'} (${date.toLocaleString()})`;
+                                        compareDropdown.appendChild(option);
+                                    });
+                                    compareDropdown.style.display = '';
+                                    compareButton.style.display = '';
+                                    if (wipeButton) wipeButton.style.display = '';
+                                    // Re-add delete button
+                                    if (!document.getElementById('deleteProfileBtn')) {
+                                        let newDeleteBtn = document.createElement('span');
+                                        newDeleteBtn.id = 'deleteProfileBtn';
+                                        newDeleteBtn.textContent = ' (Delete Selected)';
+                                        newDeleteBtn.style.cursor = 'pointer';
+                                        newDeleteBtn.style.marginLeft = '10px';
+                                        compareDropdown.parentNode.insertBefore(newDeleteBtn, compareDropdown.nextSibling);
+                                        newDeleteBtn.onclick = deleteBtn.onclick;
+                                    }
+                                } else {
+                                    compareDropdown.style.display = 'none';
+                                    compareButton.style.display = 'none';
+                                    if (wipeButton) wipeButton.style.display = 'none';
+                                }
+                            });
+                        }, (error) => {
+                            console.error(`Error: ${error}`);
+                        });
+                    } else {
+                        console.error('Storage API not found');
+                    }
+                };
             }
         });
-        compareButton.style.cursor = 'pointer';
 
         // Save functionality
         saveButton.onclick = function() {
@@ -86,7 +345,7 @@ function addSaveAndCompareButtons() {
             if (document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > h3:nth-child(7)")) {
                 document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > h3:nth-child(7)").remove();
             }
-            
+
             let dataToSave = {};
             function saveTabData(tab, tabName) {
                 tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
@@ -94,7 +353,7 @@ function addSaveAndCompareButtons() {
                     dataToSave[`${tabName}value${index}`] = currentValue;
                 });
             }
-            
+
             // Saving data from each tab
             saveTabData(totalsTab, 'totals');
             saveTabData(arcadeBattlesTab, 'arcade');
@@ -229,7 +488,7 @@ function addSaveAndCompareButtons() {
             // save the column data for ground total
             saveGroundTotalData(ground_total_row_elem, 'groundTotal');
 
-            function saveABNavalData(tab, tabName) {
+            function saveABNavalData(tab) {
                 tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
                     if (index > -1) {
                         const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
@@ -241,7 +500,7 @@ function addSaveAndCompareButtons() {
             // save the column data for AB Naval
             saveABNavalData(ab_naval_row_elem, 'abNaval');
 
-            function saveRBNavalData(tab, tabName) {
+            function saveRBNavalData(tab) {
                 tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
                     if (index > -1) {
                         const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
@@ -253,7 +512,7 @@ function addSaveAndCompareButtons() {
             // save the column data for RB Naval
             saveRBNavalData(rb_naval_row_elem, 'rbNaval');
 
-            function saveNavalTotalData(tab, tabName) {
+            function saveNavalTotalData(tab) {
                 tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
                     if (index > -1) {
                         const currentValue = parseInt(item.textContent.split(' | ')[0].replace(/,/g, ''), 10);
@@ -270,6 +529,7 @@ function addSaveAndCompareButtons() {
             dataToSave['level'] = levelElem.textContent.trim();
             dataToSave['regDate'] = regDateElem.textContent.trim();
             dataToSave['accountAge'] = accountAgeElem.textContent.trim();
+            dataToSave['currentSystemTime'] = Date.now();
 
             // Saving avatar URL
             // remove the extra avatar if it exists
@@ -279,7 +539,6 @@ function addSaveAndCompareButtons() {
             if (avatarElem && avatarElem.querySelector('img')) {
                 dataToSave['avatarUrl'] = avatarElem.querySelector('img').src;
             }
-
 
             const clanTagElem = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div:nth-child(1) > ul > li.user-profile__data-clan a");
             // if there is no clan tag then save not in a clan
@@ -293,319 +552,125 @@ function addSaveAndCompareButtons() {
             }
 
             saveData(dataToSave);
-            
+
             // update compare button text
             compareButton.textContent = ` (Compare with ${dataToSave.profileName})`;
+
+            // Reload the page after saving
+            location.reload();
         };
 
-        // Compare functionality
+        // Compare functionality for selected profile
         compareButton.onclick = function() {
-            getData(function(data) {
-                // Preventing multiple comparisons by checking if there's already a cloned profile
+            getAllProfiles(function(profiles) {
+                const idx = compareDropdown.selectedIndex;
+                if (profiles.length === 0 || idx < 0) return;
+                const data = profiles[idx];
                 const existingClonedProfile = document.getElementById('cloned-profile');
                 if (existingClonedProfile) {
                     existingClonedProfile.remove();
                 }
-        
-                if (profileNameElem.textContent.includes('Comparing with')) {
+                if (profileNameElem.textContent.includes('Comparing with') || !data.profileName) {
                     return;
                 }
-
-                // if there is no data saved then return
-                if (!data.profileName) {
-                    return;
-                }
-        
-                // Clone the profile section
                 const profileSection = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile");
                 const clonedProfile = profileSection.cloneNode(true);
-                clonedProfile.id = 'cloned-profile'; // Assign an ID to the cloned profile for easy identification and removal
-        
-                // Update the cloned profile with compared data
-                if (data.avatarUrl) {
-                    clonedProfile.querySelector('.user-profile__ava img').src = data.avatarUrl;
-                    clonedProfile.querySelector('.user-profile__ava img').alt = data.profileName;
-                }
-
-                const clonedClanTagElem = clonedProfile.querySelector('.user-profile__data-clan a');
-                if (clonedClanTagElem) {
-                    clonedClanTagElem.textContent = data.clanTag;
-                    clonedClanTagElem.href = data.clanUrl;
-                }
-        
-                clonedProfile.querySelector('li.user-profile__data-nick').textContent = data.profileName;
-                clonedProfile.querySelector('li:nth-child(4)').textContent = `${data.level}`;
-                clonedProfile.querySelector('li.user-profile__data-regdate').textContent = `${data.regDate}`;
-                clonedProfile.querySelector('h3.account-age').textContent = `${data.accountAge}`;
-        
-                // Insert the cloned profile next to the original
+                clonedProfile.id = 'cloned-profile';
+                updateProfile(clonedProfile, data);
                 profileSection.parentNode.insertBefore(clonedProfile, profileSection.nextSibling);
-        
-                // Comparing data from each tab
-                function compareTabData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        if (index > 0 && data[`${tabName}value${index}`] !== undefined) {
-                            const savedValue = data[`${tabName}value${index}`];
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                // Compare aviation AB data with #bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.arcadeFightTab.is-visible
-                function AB_compareTabData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareAviationRBData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareAviationSBData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareAviationTotalData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareGroundABData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareGroundRBData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareGroundSBData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareGroundTotalData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data[`${tabName}value${index}`];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareABNavalData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data['abNavalvalue' + index];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareRBNavalData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data['rbNavalvalue' + index];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareNavalTotalData(tab, tabName) {
-                    tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
-                        const savedValue = data['navalTotalvalue' + index];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            const differenceText = difference >= 0 ? `+${difference}` : difference;
-                            item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                        }
-                    });
-                }
-
-                function compareTotalUnitsData(tab, tabName) {
-                    tab.querySelectorAll('.user-score__list-item').forEach((item, index) => {
-                        const savedValue = data['totalUnitsvalue' + index];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            // if the difference is 0 then don't show the difference
-                            if (difference === 0) {
-                                item.innerHTML = `${currentValue} | ${savedValue}`;
-                            } else {
-                                const differenceText = difference >= 0 ? `+${difference}` : difference;
-                                item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                            }
-                        }
-                    });
-                }
-
-                function compareTotalEliteUnitsData(tab, tabName) {
-                    tab.querySelectorAll('.user-score__list-item').forEach((item, index) => {
-                        const savedValue = data['totalEliteUnitsvalue' + index];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            // if the difference is 0 then don't show the difference
-                            if (difference === 0) {
-                                item.innerHTML = `${currentValue} | ${savedValue}`;
-                            } else {
-                                const differenceText = difference >= 0 ? `+${difference}` : difference;
-                                item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                            }
-                        }
-                    });
-                }
-
-                function compareTotalMedalsData(tab, tabName) {
-                    tab.querySelectorAll('.user-score__list-item').forEach((item, index) => {
-                        const savedValue = data['totalMedalsvalue' + index];
-                        if (savedValue !== undefined) {
-                            const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
-                            const difference = currentValue - savedValue;
-                            // if the difference is 0 then don't show the difference
-                            if (difference === 0) {
-                                item.innerHTML = `${currentValue} | ${savedValue}`;
-                            } else {
-                                const differenceText = difference >= 0 ? `+${difference}` : difference;
-                                item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
-                            }
-                        }
-                    });
-                }
-
-                const totalUnitsValue = parseInt(totalUnits_elem.textContent.split(' ')[2].replace(/,/g, ''), 10);
-                const savedTotalUnitsValue = data['totalUnitsValue'];
-                const totalUnitsDifference = totalUnitsValue - savedTotalUnitsValue;
-                // if the difference is 0 then don't show the difference
-                if (totalUnitsDifference === 0) {
-                    totalUnits_elem.innerHTML = `TOTAL UNITS: ${totalUnitsValue}`;
-                } else {
-                    const totalUnitsDifferenceText = totalUnitsDifference >= 0 ? `+${totalUnitsDifference}` : totalUnitsDifference;
-                    totalUnits_elem.innerHTML = `TOTAL UNITS: ${totalUnitsValue} | ${savedTotalUnitsValue} | <span class="${totalUnitsDifference >= 0 ? 'positive' : 'negative'}">${totalUnitsDifferenceText}</span>`;
-                }
-
-                const totalEliteUnitsNumberValue = parseInt(totalEliteUnitsNumber_elem.textContent.split(' ')[2].replace(/,/g, ''), 10);
-                const savedTotalEliteUnitsNumberValue = data['totalEliteUnitsNumberValue'];
-                const totalEliteUnitsNumberDifference = totalEliteUnitsNumberValue - savedTotalEliteUnitsNumberValue;
-                // if the difference is 0 then don't show the difference
-                if (totalEliteUnitsNumberDifference === 0) {
-                    totalEliteUnitsNumber_elem.innerHTML = `ELITE UNITS: ${totalEliteUnitsNumberValue}`;
-                } else {
-                    const totalEliteUnitsNumberDifferenceText = totalEliteUnitsNumberDifference >= 0 ? `+${totalEliteUnitsNumberDifference}` : totalEliteUnitsNumberDifference;
-                    totalEliteUnitsNumber_elem.innerHTML = `ELITE UNITS: ${totalEliteUnitsNumberValue} | ${savedTotalEliteUnitsNumberValue} | <span class="${totalEliteUnitsNumberDifference >= 0 ? 'positive' : 'negative'}">${totalEliteUnitsNumberDifferenceText}</span>`;
-                }
-
-                const totalMedalsNumberValue = parseInt(totalMedalsNumber_elem.textContent.split(' ')[2].replace(/,/g, ''), 10);
-                const savedTotalMedalsNumberValue = data['totalMedalsNumberValue'];
-                const totalMedalsNumberDifference = totalMedalsNumberValue - savedTotalMedalsNumberValue;
-                // if the difference is 0 then don't show the difference
-                if (totalMedalsNumberDifference === 0) {
-                    totalMedalsNumber_elem.innerHTML = `Total Medals: ${totalMedalsNumberValue}`;
-                } else {
-                    const totalMedalsNumberDifferenceText = totalMedalsNumberDifference >= 0 ? `+${totalMedalsNumberDifference}` : totalMedalsNumberDifference;
-                    totalMedalsNumber_elem.innerHTML = `Total Medals: ${totalMedalsNumberValue} | ${savedTotalMedalsNumberValue} | <span class="${totalMedalsNumberDifference >= 0 ? 'positive' : 'negative'}">${totalMedalsNumberDifferenceText}</span>`;
-                }
-
-
-                compareTabData(totalsTab, 'totals');
-                compareTabData(arcadeBattlesTab, 'arcade');
-                compareTabData(realisticBattlesTab, 'realistic');
-                compareTabData(simulationBattlesTab, 'simulation');
-                AB_compareTabData(aviation_AB_row_elem, 'aviationAB');
-                compareAviationRBData(aviation_RB_row_elem, 'aviationRB');
-                compareAviationSBData(aviation_SB_row_elem, 'aviationSB');
-                compareAviationTotalData(aviation_total_row_elem, 'aviationTotal');
-                compareGroundABData(ground_AB_row_elem, 'groundAB');
-                compareGroundRBData(ground_RB_row_elem, 'groundRB');
-                compareGroundSBData(ground_SB_row_elem, 'groundSB');
-                compareGroundTotalData(ground_total_row_elem, 'groundTotal');
-                compareABNavalData(ab_naval_row_elem, 'abNaval');
-                compareRBNavalData(rb_naval_row_elem, 'rbNaval');
-                compareNavalTotalData(naval_total_row_elem, 'navalTotal');
-                compareTotalUnitsData(totalUnits_row_elem, 'totalUnits');
-                compareTotalEliteUnitsData(totalEliteUnits_row_elem, 'totalEliteUnits');
-                compareTotalMedalsData(totalMedals_row_elem, 'totalMedals');
-                
+                // Compare tab data
+                compareTabData(totalsTab, 'totals', data);
+                compareTabData(arcadeBattlesTab, 'arcade', data);
+                compareTabData(realisticBattlesTab, 'realistic', data);
+                compareTabData(simulationBattlesTab, 'simulation', data);
+                compareTabData(aviation_AB_row_elem, 'aviationAB', data);
+                compareTabData(aviation_RB_row_elem, 'aviationRB', data);
+                compareTabData(aviation_SB_row_elem, 'aviationSB', data);
+                compareTabData(aviation_total_row_elem, 'aviationTotal', data);
+                compareTabData(ground_AB_row_elem, 'groundAB', data);
+                compareTabData(ground_RB_row_elem, 'groundRB', data);
+                compareTabData(ground_SB_row_elem, 'groundSB', data);
+                compareTabData(ground_total_row_elem, 'groundTotal', data);
+                compareTabData(ab_naval_row_elem, 'abNaval', data);
+                compareTabData(rb_naval_row_elem, 'rbNaval', data);
+                compareTabData(naval_total_row_elem, 'navalTotal', data);
+                // Compare vehicles and rewards data
+                compareData(totalUnits_row_elem, 'totalUnits', data);
+                compareData(totalEliteUnits_row_elem, 'totalEliteUnits', data);
+                compareData(totalMedals_row_elem, 'totalMedals', data);
             });
-        };        
+        };
 
-        // Appending buttons to the totals item
-        //totalsItem.appendChild(saveButton);
-        //totalsItem.appendChild(compareButton);
+        function updateProfile(clonedProfile, data) {
+            if (data.avatarUrl) {
+                clonedProfile.querySelector('.user-profile__ava img').src = data.avatarUrl;
+                clonedProfile.querySelector('.user-profile__ava img').alt = data.profileName;
+            }
+
+            const clonedClanTagElem = clonedProfile.querySelector('.user-profile__data-clan a');
+            if (clonedClanTagElem) {
+                clonedClanTagElem.textContent = data.clanTag;
+                clonedClanTagElem.href = data.clanUrl;
+            }
+
+            const date = new Date(data.currentSystemTime);
+            clonedProfile.querySelector('li.user-profile__data-nick').textContent = 'Comparing with: ' + data.profileName + ' | From ' + date.toLocaleString();
+            clonedProfile.querySelector('li:nth-child(4)').textContent = `${data.level}`;
+            clonedProfile.querySelector('li.user-profile__data-regdate').textContent = `${data.regDate}`;
+            clonedProfile.querySelector('h3.account-age').textContent = `${data.accountAge}`;
+        }
+
+        function compareTabData(tab, tabName, data) {
+            tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
+                const savedValue = data[`${tabName}value${index}`];
+                if (savedValue !== undefined) {
+                    const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                    const difference = currentValue - savedValue;
+                    const differenceText = difference >= 0 ? `+${difference}` : difference;
+                    item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                }
+            });
+        }
+
+        function compareData(tab, tabName, data) {
+            tab.querySelectorAll('.user-stat__list-item, .user-score__list-item').forEach((item, index) => {
+                const savedValue = data[`${tabName}value${index}`];
+                if (savedValue !== undefined) {
+                    const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
+                    const difference = currentValue - savedValue;
+                    const differenceText = difference >= 0 ? `+${difference}` : difference;
+                    item.innerHTML = difference === 0
+                        ? `${currentValue} | ${savedValue}`
+                        : `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                }
+            });
+        }
+
+        // Appending buttons and dropdown to the header
         sectionHeader.appendChild(saveButton);
+        sectionHeader.appendChild(exportButton);
+        sectionHeader.appendChild(importButton);
+        sectionHeader.appendChild(compareDropdown);
         sectionHeader.appendChild(compareButton);
         // add a button to wipe data
-        const wipeButton = document.createElement('span');
-        wipeButton.textContent = ' (Wipe Data)';
+        const wipeButton = document.createElement('button');
+        wipeButton.textContent = 'Wipe Data';
         wipeButton.style.cursor = 'pointer';
         wipeButton.id = 'wipeBtn';
+        wipeButton.style.background = '#fbbf24';
+        wipeButton.style.color = '#111827';
+        wipeButton.style.border = 'none';
+        wipeButton.style.borderRadius = '5px';
+        wipeButton.style.padding = '3px 10px';
+        wipeButton.style.fontWeight = '500';
+        wipeButton.style.fontSize = '13px';
+        wipeButton.style.transition = 'background 0.2s';
+        wipeButton.onmouseover = () => wipeButton.style.background = '#f59e42';
+        wipeButton.onmouseout = () => wipeButton.style.background = '#fbbf24';
         wipeButton.onclick = function() {
-            wipeData();
+            if (confirm('Are you sure you want to clear all saved profiles? This action cannot be undone.')) {
+                wipeData();
+            }
         }
         sectionHeader.appendChild(wipeButton);
     }
@@ -613,21 +678,46 @@ function addSaveAndCompareButtons() {
 
 // Helper functions to save and retrieve data
 function saveData(dataToSave) {
+    // Add a timestamp to each save for uniqueness
+    dataToSave._savedAt = Date.now();
+    // Retrieve existing profiles array, append new, and save
+    getAllProfiles(function(profiles) {
+        if (!Array.isArray(profiles)) profiles = [];
+        profiles.push(dataToSave);
+        if (typeof chrome !== 'undefined' && chrome.storage) {
+            chrome.storage.local.set({ profiles }, function() {
+                console.log('Profiles array saved in Chrome storage:', profiles);
+            });
+        } else if (typeof browser !== 'undefined' && browser.storage) {
+            browser.storage.local.set({ profiles }).then(() => {
+                console.log('Profiles array saved in Firefox storage:', profiles);
+            }, (error) => {
+                console.error(`Error: ${error}`);
+            });
+        } else {
+            console.error('Storage API not found');
+        }
+    });
+}
+
+// Helper to get all saved profiles as an array
+function getAllProfiles(callback) {
     if (typeof chrome !== 'undefined' && chrome.storage) {
-        chrome.storage.local.set(dataToSave, function() {
-            console.log('Data saved in Chrome storage:', dataToSave);
+        chrome.storage.local.get(['profiles'], function(result) {
+            callback(result.profiles || []);
         });
     } else if (typeof browser !== 'undefined' && browser.storage) {
-        browser.storage.local.set(dataToSave).then(() => {
-            console.log('Data saved in Firefox storage:', dataToSave);
+        browser.storage.local.get('profiles').then(result => {
+            callback(result.profiles || []);
         }, (error) => {
             console.error(`Error: ${error}`);
+            callback([]);
         });
     } else {
         console.error('Storage API not found');
+        callback([]);
     }
 }
-
 function getData(callback) {
     if (typeof chrome !== 'undefined' && chrome.storage) {
         chrome.storage.local.get(null, callback);
@@ -643,21 +733,28 @@ function getData(callback) {
 // function to wipe all data
 function wipeData() {
     if (typeof chrome !== 'undefined' && chrome.storage) {
-        chrome.storage.local.clear(function() {
-            console.log('Data wiped from Chrome storage');
-            // update compare button text
-            const compareButton = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.content__title > span:nth-child(2)");
-            compareButton.textContent = ' (Compare)';
-            // refresh page
+        chrome.storage.local.set({ profiles: [] }, function() {
+            console.log('All profiles wiped from Chrome storage');
+            // update compare button text and dropdown
+            const compareButton = document.getElementById('compareBtn');
+            if (compareButton) compareButton.textContent = ' (Compare)';
+            const compareDropdown = document.getElementById('compareDropdown');
+            if (compareDropdown) {
+                compareDropdown.innerHTML = '';
+                compareDropdown.style.display = 'none';
+            }
             location.reload();
         });
     } else if (typeof browser !== 'undefined' && browser.storage) {
-        browser.storage.local.clear().then(() => {
-            console.log('Data wiped from Firefox storage');
-            // update compare button text
-            const compareButton = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.content__title > span:nth-child(2)");
-            compareButton.textContent = ' (Compare)';
-            // refresh page
+        browser.storage.local.set({ profiles: [] }).then(() => {
+            console.log('All profiles wiped from Firefox storage');
+            const compareButton = document.getElementById('compareBtn');
+            if (compareButton) compareButton.textContent = ' (Compare)';
+            const compareDropdown = document.getElementById('compareDropdown');
+            if (compareDropdown) {
+                compareDropdown.innerHTML = '';
+                compareDropdown.style.display = 'none';
+            }
             location.reload();
         }, (error) => {
             console.error(`Error: ${error}`);

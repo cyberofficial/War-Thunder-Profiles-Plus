@@ -1,4 +1,86 @@
 function addSaveAndCompareButtons() {
+        // Export Data button
+        const exportButton = document.createElement('button');
+        exportButton.textContent = 'Export Data';
+        exportButton.style.cursor = 'pointer';
+        exportButton.style.background = '#10b981';
+        exportButton.style.color = '#fff';
+        exportButton.style.border = 'none';
+        exportButton.style.borderRadius = '5px';
+        exportButton.style.padding = '3px 10px';
+        exportButton.style.fontWeight = '500';
+        exportButton.style.fontSize = '13px';
+        exportButton.style.marginRight = '6px';
+        exportButton.style.transition = 'background 0.2s';
+        exportButton.onmouseover = () => exportButton.style.background = '#059669';
+        exportButton.onmouseout = () => exportButton.style.background = '#10b981';
+        exportButton.onclick = function() {
+            getAllProfiles(function(profiles) {
+                const dataStr = JSON.stringify(profiles, null, 2);
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'warthunder_profiles_backup.json';
+                document.body.appendChild(a);
+                a.click();
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+            });
+        };
+
+        // Import Data button
+        const importButton = document.createElement('button');
+        importButton.textContent = 'Import Data';
+        importButton.style.cursor = 'pointer';
+        importButton.style.background = '#818cf8';
+        importButton.style.color = '#fff';
+        importButton.style.border = 'none';
+        importButton.style.borderRadius = '5px';
+        importButton.style.padding = '3px 10px';
+        importButton.style.fontWeight = '500';
+        importButton.style.fontSize = '13px';
+        importButton.style.marginRight = '6px';
+        importButton.style.transition = 'background 0.2s';
+        importButton.onmouseover = () => importButton.style.background = '#6366f1';
+        importButton.onmouseout = () => importButton.style.background = '#818cf8';
+        importButton.onclick = function() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = 'application/json';
+            input.onchange = function(e) {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    try {
+                        const imported = JSON.parse(evt.target.result);
+                        if (!Array.isArray(imported)) throw new Error('Invalid format');
+                        if (typeof chrome !== 'undefined' && chrome.storage) {
+                            chrome.storage.local.set({ profiles: imported }, function() {
+                                alert('Profiles imported successfully!');
+                                location.reload();
+                            });
+                        } else if (typeof browser !== 'undefined' && browser.storage) {
+                            browser.storage.local.set({ profiles: imported }).then(() => {
+                                alert('Profiles imported successfully!');
+                                location.reload();
+                            }, (error) => {
+                                alert('Error importing: ' + error);
+                            });
+                        } else {
+                            alert('Storage API not found');
+                        }
+                    } catch (err) {
+                        alert('Invalid file or format.');
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        };
     // Selectors for various parts of the page
     const baseSelector = '#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info';
     const userProfileSelector = `${baseSelector} > div.user-profile`;
@@ -76,22 +158,183 @@ function addSaveAndCompareButtons() {
         // select content__header
         const sectionHeader = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.content__title");
 
-        // Creating Save and Compare buttons
-        const saveButton = document.createElement('span');
-        saveButton.textContent = ' (Save)';
-        saveButton.style.cursor = 'pointer';
-        // give save the id of saveBtn
+        // Creating Save and Compare buttons with modern styles
+        const saveButton = document.createElement('button');
+        saveButton.textContent = 'Save';
         saveButton.id = 'saveBtn';
-        const compareButton = document.createElement('span');
-        compareButton.textContent = ' (Compare)';
+        saveButton.style.cursor = 'pointer';
+        saveButton.style.background = '#2563eb';
+        saveButton.style.color = '#fff';
+        saveButton.style.border = 'none';
+        saveButton.style.borderRadius = '6px';
+        saveButton.style.padding = '3px 10px';
+        saveButton.style.fontWeight = '500';
+        saveButton.style.fontSize = '13px';
+        saveButton.style.marginRight = '6px';
+        saveButton.style.boxShadow = '0 1px 2px rgba(0,0,0,0.04)';
+        saveButton.style.transition = 'background 0.2s';
+        saveButton.onmouseover = () => saveButton.style.background = '#1d4ed8';
+        saveButton.onmouseout = () => saveButton.style.background = '#2563eb';
+
+        // Compare dropdown and button
+        const compareDropdown = document.createElement('select');
+        compareDropdown.id = 'compareDropdown';
+        compareDropdown.style.marginLeft = '10px';
+        compareDropdown.style.display = 'none';
+        compareDropdown.style.borderRadius = '5px';
+        compareDropdown.style.padding = '3px 7px';
+        compareDropdown.style.border = '1px solid #d1d5db';
+        compareDropdown.style.background = '#e5edfa';
+        compareDropdown.style.color = '#1a1a1a';
+        compareDropdown.style.fontWeight = '500';
+        compareDropdown.style.fontSize = '13px';
+        compareDropdown.style.marginRight = '6px';
+
+        const compareButton = document.createElement('button');
+        compareButton.textContent = 'Compare';
         compareButton.id = 'compareBtn';
-        // if there is a saved named from compare then make it say (Compare with <profilenamehere>)
-        getData(function(data) {
-            if (data.profileName) {
-                compareButton.textContent = ` (Compare with ${data.profileName})`;
+        compareButton.style.cursor = 'pointer';
+        compareButton.style.background = '#f3f4f6';
+        compareButton.style.color = '#111827';
+        compareButton.style.border = '1px solid #d1d5db';
+        compareButton.style.borderRadius = '6px';
+        compareButton.style.padding = '3px 10px';
+        compareButton.style.fontWeight = '500';
+        compareButton.style.fontSize = '13px';
+        compareButton.style.marginRight = '6px';
+        compareButton.style.transition = 'background 0.2s';
+        compareButton.onmouseover = () => compareButton.style.background = '#e5e7eb';
+        compareButton.onmouseout = () => compareButton.style.background = '#f3f4f6';
+
+        // Populate dropdown with saved profiles
+        getAllProfiles(function(profiles) {
+            compareDropdown.innerHTML = '';
+            let deleteBtn = document.getElementById('deleteProfileBtn');
+            let wipeButton = document.getElementById('wipeBtn');
+            compareDropdown.style.display = 'none';
+            compareButton.style.display = 'none';
+            if (wipeButton) wipeButton.style.display = 'none';
+            // Remove delete button if it exists
+            if (deleteBtn && deleteBtn.parentNode) {
+                deleteBtn.parentNode.removeChild(deleteBtn);
+                deleteBtn = null;
+            }
+
+            if (profiles.length > 0) {
+                compareDropdown.style.display = 'inline';
+                profiles.forEach((profile, idx) => {
+                    const date = new Date(profile._savedAt || profile.currentSystemTime || Date.now());
+                    const option = document.createElement('option');
+                    option.value = idx;
+                    option.textContent = `${profile.profileName || 'Profile'} (${date.toLocaleString()})`;
+                    compareDropdown.appendChild(option);
+                });
+                compareButton.style.display = '';
+                if (wipeButton) wipeButton.style.display = '';
+                // Add delete button only if profiles exist
+                if (!deleteBtn) {
+                    deleteBtn = document.createElement('button');
+                    deleteBtn.id = 'deleteProfileBtn';
+                    deleteBtn.textContent = 'Delete Selected';
+                    deleteBtn.style.cursor = 'pointer';
+                    deleteBtn.style.background = '#f87171';
+                    deleteBtn.style.color = '#fff';
+                    deleteBtn.style.border = 'none';
+                    deleteBtn.style.borderRadius = '5px';
+                    deleteBtn.style.padding = '3px 10px';
+                    deleteBtn.style.fontWeight = '500';
+                    deleteBtn.style.fontSize = '13px';
+                    deleteBtn.style.marginRight = '6px';
+                    deleteBtn.style.transition = 'background 0.2s';
+                    deleteBtn.onmouseover = () => deleteBtn.style.background = '#ef4444';
+                    deleteBtn.onmouseout = () => deleteBtn.style.background = '#f87171';
+                    compareDropdown.parentNode.insertBefore(deleteBtn, compareDropdown.nextSibling);
+                }
+                deleteBtn.style.display = '';
+                deleteBtn.onclick = function() {
+                    const idx = compareDropdown.selectedIndex;
+                    if (idx < 0 || profiles.length === 0) return;
+                    profiles.splice(idx, 1);
+                    if (typeof chrome !== 'undefined' && chrome.storage) {
+                        chrome.storage.local.set({ profiles }, function() {
+                            console.log('Profile deleted.');
+                            getAllProfiles(function(newProfiles) {
+                                compareDropdown.innerHTML = '';
+                                if (deleteBtn && deleteBtn.parentNode) {
+                                    deleteBtn.parentNode.removeChild(deleteBtn);
+                                }
+                                if (newProfiles.length > 0) {
+                                    newProfiles.forEach((profile, idx) => {
+                                        const date = new Date(profile._savedAt || profile.currentSystemTime || Date.now());
+                                        const option = document.createElement('option');
+                                        option.value = idx;
+                                        option.textContent = `${profile.profileName || 'Profile'} (${date.toLocaleString()})`;
+                                        compareDropdown.appendChild(option);
+                                    });
+                                    compareDropdown.style.display = '';
+                                    compareButton.style.display = '';
+                                    if (wipeButton) wipeButton.style.display = '';
+                                    // Re-add delete button
+                                    if (!document.getElementById('deleteProfileBtn')) {
+                                        let newDeleteBtn = document.createElement('span');
+                                        newDeleteBtn.id = 'deleteProfileBtn';
+                                        newDeleteBtn.textContent = ' (Delete Selected)';
+                                        newDeleteBtn.style.cursor = 'pointer';
+                                        newDeleteBtn.style.marginLeft = '10px';
+                                        compareDropdown.parentNode.insertBefore(newDeleteBtn, compareDropdown.nextSibling);
+                                        newDeleteBtn.onclick = deleteBtn.onclick;
+                                    }
+                                } else {
+                                    compareDropdown.style.display = 'none';
+                                    compareButton.style.display = 'none';
+                                    if (wipeButton) wipeButton.style.display = 'none';
+                                }
+                            });
+                        });
+                    } else if (typeof browser !== 'undefined' && browser.storage) {
+                        browser.storage.local.set({ profiles }).then(() => {
+                            console.log('Profile deleted.');
+                            getAllProfiles(function(newProfiles) {
+                                compareDropdown.innerHTML = '';
+                                if (deleteBtn && deleteBtn.parentNode) {
+                                    deleteBtn.parentNode.removeChild(deleteBtn);
+                                }
+                                if (newProfiles.length > 0) {
+                                    newProfiles.forEach((profile, idx) => {
+                                        const date = new Date(profile._savedAt || profile.currentSystemTime || Date.now());
+                                        const option = document.createElement('option');
+                                        option.value = idx;
+                                        option.textContent = `${profile.profileName || 'Profile'} (${date.toLocaleString()})`;
+                                        compareDropdown.appendChild(option);
+                                    });
+                                    compareDropdown.style.display = '';
+                                    compareButton.style.display = '';
+                                    if (wipeButton) wipeButton.style.display = '';
+                                    // Re-add delete button
+                                    if (!document.getElementById('deleteProfileBtn')) {
+                                        let newDeleteBtn = document.createElement('span');
+                                        newDeleteBtn.id = 'deleteProfileBtn';
+                                        newDeleteBtn.textContent = ' (Delete Selected)';
+                                        newDeleteBtn.style.cursor = 'pointer';
+                                        newDeleteBtn.style.marginLeft = '10px';
+                                        compareDropdown.parentNode.insertBefore(newDeleteBtn, compareDropdown.nextSibling);
+                                        newDeleteBtn.onclick = deleteBtn.onclick;
+                                    }
+                                } else {
+                                    compareDropdown.style.display = 'none';
+                                    compareButton.style.display = 'none';
+                                    if (wipeButton) wipeButton.style.display = 'none';
+                                }
+                            });
+                        }, (error) => {
+                            console.error(`Error: ${error}`);
+                        });
+                    } else {
+                        console.error('Storage API not found');
+                    }
+                };
             }
         });
-        compareButton.style.cursor = 'pointer';
 
         // Save functionality
         saveButton.onclick = function() {
@@ -102,7 +345,7 @@ function addSaveAndCompareButtons() {
             if (document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > h3:nth-child(7)")) {
                 document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile > ul > h3:nth-child(7)").remove();
             }
-            
+
             let dataToSave = {};
             function saveTabData(tab, tabName) {
                 tab.querySelectorAll('.user-stat__list-item').forEach((item, index) => {
@@ -110,7 +353,7 @@ function addSaveAndCompareButtons() {
                     dataToSave[`${tabName}value${index}`] = currentValue;
                 });
             }
-            
+
             // Saving data from each tab
             saveTabData(totalsTab, 'totals');
             saveTabData(arcadeBattlesTab, 'arcade');
@@ -297,7 +540,6 @@ function addSaveAndCompareButtons() {
                 dataToSave['avatarUrl'] = avatarElem.querySelector('img').src;
             }
 
-
             const clanTagElem = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div:nth-child(1) > ul > li.user-profile__data-clan a");
             // if there is no clan tag then save not in a clan
             if (!clanTagElem) {
@@ -310,30 +552,32 @@ function addSaveAndCompareButtons() {
             }
 
             saveData(dataToSave);
-            
+
             // update compare button text
             compareButton.textContent = ` (Compare with ${dataToSave.profileName})`;
+
+            // Reload the page after saving
+            location.reload();
         };
 
-        // Compare functionality
+        // Compare functionality for selected profile
         compareButton.onclick = function() {
-            getData(function(data) {
+            getAllProfiles(function(profiles) {
+                const idx = compareDropdown.selectedIndex;
+                if (profiles.length === 0 || idx < 0) return;
+                const data = profiles[idx];
                 const existingClonedProfile = document.getElementById('cloned-profile');
                 if (existingClonedProfile) {
                     existingClonedProfile.remove();
                 }
-
                 if (profileNameElem.textContent.includes('Comparing with') || !data.profileName) {
                     return;
                 }
-
                 const profileSection = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.user-profile");
                 const clonedProfile = profileSection.cloneNode(true);
                 clonedProfile.id = 'cloned-profile';
-
                 updateProfile(clonedProfile, data);
                 profileSection.parentNode.insertBefore(clonedProfile, profileSection.nextSibling);
-
                 // Compare tab data
                 compareTabData(totalsTab, 'totals', data);
                 compareTabData(arcadeBattlesTab, 'arcade', data);
@@ -350,7 +594,6 @@ function addSaveAndCompareButtons() {
                 compareTabData(ab_naval_row_elem, 'abNaval', data);
                 compareTabData(rb_naval_row_elem, 'rbNaval', data);
                 compareTabData(naval_total_row_elem, 'navalTotal', data);
-
                 // Compare vehicles and rewards data
                 compareData(totalUnits_row_elem, 'totalUnits', data);
                 compareData(totalEliteUnits_row_elem, 'totalEliteUnits', data);
@@ -403,18 +646,31 @@ function addSaveAndCompareButtons() {
             });
         }
 
-        // Appending buttons to the totals item
-        //totalsItem.appendChild(saveButton);
-        //totalsItem.appendChild(compareButton);
+        // Appending buttons and dropdown to the header
         sectionHeader.appendChild(saveButton);
+        sectionHeader.appendChild(exportButton);
+        sectionHeader.appendChild(importButton);
+        sectionHeader.appendChild(compareDropdown);
         sectionHeader.appendChild(compareButton);
         // add a button to wipe data
-        const wipeButton = document.createElement('span');
-        wipeButton.textContent = ' (Wipe Data)';
+        const wipeButton = document.createElement('button');
+        wipeButton.textContent = 'Wipe Data';
         wipeButton.style.cursor = 'pointer';
         wipeButton.id = 'wipeBtn';
+        wipeButton.style.background = '#fbbf24';
+        wipeButton.style.color = '#111827';
+        wipeButton.style.border = 'none';
+        wipeButton.style.borderRadius = '5px';
+        wipeButton.style.padding = '3px 10px';
+        wipeButton.style.fontWeight = '500';
+        wipeButton.style.fontSize = '13px';
+        wipeButton.style.transition = 'background 0.2s';
+        wipeButton.onmouseover = () => wipeButton.style.background = '#f59e42';
+        wipeButton.onmouseout = () => wipeButton.style.background = '#fbbf24';
         wipeButton.onclick = function() {
-            wipeData();
+            if (confirm('Are you sure you want to clear all saved profiles? This action cannot be undone.')) {
+                wipeData();
+            }
         }
         sectionHeader.appendChild(wipeButton);
     }
@@ -422,21 +678,46 @@ function addSaveAndCompareButtons() {
 
 // Helper functions to save and retrieve data
 function saveData(dataToSave) {
+    // Add a timestamp to each save for uniqueness
+    dataToSave._savedAt = Date.now();
+    // Retrieve existing profiles array, append new, and save
+    getAllProfiles(function(profiles) {
+        if (!Array.isArray(profiles)) profiles = [];
+        profiles.push(dataToSave);
+        if (typeof chrome !== 'undefined' && chrome.storage) {
+            chrome.storage.local.set({ profiles }, function() {
+                console.log('Profiles array saved in Chrome storage:', profiles);
+            });
+        } else if (typeof browser !== 'undefined' && browser.storage) {
+            browser.storage.local.set({ profiles }).then(() => {
+                console.log('Profiles array saved in Firefox storage:', profiles);
+            }, (error) => {
+                console.error(`Error: ${error}`);
+            });
+        } else {
+            console.error('Storage API not found');
+        }
+    });
+}
+
+// Helper to get all saved profiles as an array
+function getAllProfiles(callback) {
     if (typeof chrome !== 'undefined' && chrome.storage) {
-        chrome.storage.local.set(dataToSave, function() {
-            console.log('Data saved in Chrome storage:', dataToSave);
+        chrome.storage.local.get(['profiles'], function(result) {
+            callback(result.profiles || []);
         });
     } else if (typeof browser !== 'undefined' && browser.storage) {
-        browser.storage.local.set(dataToSave).then(() => {
-            console.log('Data saved in Firefox storage:', dataToSave);
+        browser.storage.local.get('profiles').then(result => {
+            callback(result.profiles || []);
         }, (error) => {
             console.error(`Error: ${error}`);
+            callback([]);
         });
     } else {
         console.error('Storage API not found');
+        callback([]);
     }
 }
-
 function getData(callback) {
     if (typeof chrome !== 'undefined' && chrome.storage) {
         chrome.storage.local.get(null, callback);
@@ -452,21 +733,28 @@ function getData(callback) {
 // function to wipe all data
 function wipeData() {
     if (typeof chrome !== 'undefined' && chrome.storage) {
-        chrome.storage.local.clear(function() {
-            console.log('Data wiped from Chrome storage');
-            // update compare button text
-            const compareButton = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.content__title > span:nth-child(2)");
-            compareButton.textContent = ' (Compare)';
-            // refresh page
+        chrome.storage.local.set({ profiles: [] }, function() {
+            console.log('All profiles wiped from Chrome storage');
+            // update compare button text and dropdown
+            const compareButton = document.getElementById('compareBtn');
+            if (compareButton) compareButton.textContent = ' (Compare)';
+            const compareDropdown = document.getElementById('compareDropdown');
+            if (compareDropdown) {
+                compareDropdown.innerHTML = '';
+                compareDropdown.style.display = 'none';
+            }
             location.reload();
         });
     } else if (typeof browser !== 'undefined' && browser.storage) {
-        browser.storage.local.clear().then(() => {
-            console.log('Data wiped from Firefox storage');
-            // update compare button text
-            const compareButton = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.content__title > span:nth-child(2)");
-            compareButton.textContent = ' (Compare)';
-            // refresh page
+        browser.storage.local.set({ profiles: [] }).then(() => {
+            console.log('All profiles wiped from Firefox storage');
+            const compareButton = document.getElementById('compareBtn');
+            if (compareButton) compareButton.textContent = ' (Compare)';
+            const compareDropdown = document.getElementById('compareDropdown');
+            if (compareDropdown) {
+                compareDropdown.innerHTML = '';
+                compareDropdown.style.display = 'none';
+            }
             location.reload();
         }, (error) => {
             console.error(`Error: ${error}`);

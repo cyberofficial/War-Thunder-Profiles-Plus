@@ -171,7 +171,21 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
 
         // clean up things first, if the html element contains "N/A" then set that value to 0, so we'll need to search for the N/A and replace it with 0
         const StatsTable = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div");
-        StatsTable.innerHTML = StatsTable.innerHTML.replace(/N\/A/g, "0");
+        // Use textContent for safer replacement
+        function replaceNAInElement(element) {
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+            const textNodes = [];
+            let node;
+            while (node = walker.nextNode()) {
+                textNodes.push(node);
+            }
+            textNodes.forEach(textNode => {
+                if (textNode.textContent.includes('N/A')) {
+                    textNode.textContent = textNode.textContent.replace(/N\/A/g, '0');
+                }
+            });
+        }
+        replaceNAInElement(StatsTable);
         // if document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(7)") is 0 then make it 0m
         if (document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(7)").innerText == "0") {
             document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(7)").innerText = "0m";
@@ -185,23 +199,23 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
         // search for all "N/A" and replace with 0 document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType")
         const AVI_AB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.arcadeFightTab.is-visible");
         // replace all N/A with 0
-        AVI_AB_TableData.innerHTML = AVI_AB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(AVI_AB_TableData);
         AVI_RB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.historyFightTab")
-        AVI_RB_TableData.innerHTML = AVI_RB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(AVI_RB_TableData);
         AVI_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.simulationFightTab");
-        AVI_SB_TableData.innerHTML = AVI_SB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(AVI_SB_TableData);
         GRND_AB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.arcadeFightTab.is-visible");
-        GRND_AB_TableData.innerHTML = GRND_AB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(GRND_AB_TableData);
         GRND_RB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.historyFightTab");
-        GRND_RB_TableData.innerHTML = GRND_RB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(GRND_RB_TableData);
         GRND_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.simulationFightTab");
-        GRND_SB_TableData.innerHTML = GRND_SB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(GRND_SB_TableData);
         NAV_AB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.arcadeFightTab.is-visible");
-        NAV_AB_TableData.innerHTML = NAV_AB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(NAV_AB_TableData);
         NAV_RB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.historyFightTab");
-        NAV_RB_TableData.innerHTML = NAV_RB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(NAV_RB_TableData);
         NAV_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.simulationFightTab");
-        NAV_SB_TableData.innerHTML = NAV_SB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(NAV_SB_TableData);
 
         // Function to add dummy clan tag
         function addDummyClanTag() {

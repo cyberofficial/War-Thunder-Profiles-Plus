@@ -627,7 +627,15 @@ function addSaveAndCompareButtons() {
                     const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
                     const difference = currentValue - savedValue;
                     const differenceText = difference >= 0 ? `+${difference}` : difference;
-                    item.innerHTML = `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                    
+                    // Clear existing content and create safe elements
+                    item.textContent = '';
+                    item.appendChild(document.createTextNode(`${currentValue} | ${savedValue} | `));
+                    
+                    const span = document.createElement('span');
+                    span.className = difference >= 0 ? 'positive' : 'negative';
+                    span.textContent = differenceText;
+                    item.appendChild(span);
                 }
             });
         }
@@ -639,9 +647,20 @@ function addSaveAndCompareButtons() {
                     const currentValue = parseInt(item.textContent.replace(/,/g, ''), 10);
                     const difference = currentValue - savedValue;
                     const differenceText = difference >= 0 ? `+${difference}` : difference;
-                    item.innerHTML = difference === 0
-                        ? `${currentValue} | ${savedValue}`
-                        : `${currentValue} | ${savedValue} | <span class="${difference >= 0 ? 'positive' : 'negative'}">${differenceText}</span>`;
+                    
+                    // Clear existing content and create safe elements
+                    item.textContent = '';
+                    
+                    if (difference === 0) {
+                        item.textContent = `${currentValue} | ${savedValue}`;
+                    } else {
+                        item.appendChild(document.createTextNode(`${currentValue} | ${savedValue} | `));
+                        
+                        const span = document.createElement('span');
+                        span.className = difference >= 0 ? 'positive' : 'negative';
+                        span.textContent = differenceText;
+                        item.appendChild(span);
+                    }
                 }
             });
         }

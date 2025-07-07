@@ -1,0 +1,3 @@
+- add date/time to compare
+
+- work on historical data

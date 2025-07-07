@@ -37,10 +37,86 @@ function loadScript(scriptName, callback) {
     document.head.appendChild(script);
   }
 
-  // check for cloudflare or Redirecting text
+// check for cloudflare or Redirecting text
 if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.documentElement.innerHTML.includes("Redirecting")) {
-    // if the url doesn't userinfo, then it's not a user page so we just exit the script
-    if (window.location.href.includes("userinfo")) {
+    // If on the search results page, run search indicator logic directly
+    if (window.location.href.includes("/community/searchplayers")) {
+        // Utility to get all saved profiles from storage
+        function getAllProfiles(callback) {
+            if (typeof chrome !== 'undefined' && chrome.storage) {
+                chrome.storage.local.get(['profiles'], function(result) {
+                    callback(result.profiles || []);
+                });
+            } else if (typeof browser !== 'undefined' && browser.storage) {
+                browser.storage.local.get('profiles').then((result) => {
+                    callback(result.profiles || []);
+                }, () => callback([]));
+            } else {
+                callback([]);
+            }
+        }
+
+        // Wait for DOM ready
+        function onReady(fn) {
+            if (document.readyState === 'complete' || document.readyState === 'interactive') {
+                setTimeout(fn, 1);
+            } else {
+                document.addEventListener('DOMContentLoaded', fn);
+            }
+        }
+
+        onReady(function() {
+            // Find the search results table using a robust selector
+            let table = document.querySelector('#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section:nth-child(3) > div > table');
+            if (!table) {
+                table = document.querySelector('table.leaderboards.search-players');
+            }
+            if (!table) {
+                console.log('[WT Saved Indicator] Table not found');
+                return;
+            }
+            console.log('[WT Saved Indicator] Table found:', table);
+            
+            getAllProfiles(function(profiles) {
+                if (!profiles || !profiles.length) {
+                    console.log('[WT Saved Indicator] No profiles found');
+                    return;
+                }
+                // Build a Set of trimmed, non-empty, case-sensitive saved profile names
+                const savedNames = new Set(
+                    profiles
+                        .map(p => (typeof p.profileName === 'string' ? p.profileName.trim() : ''))
+                        .filter(name => name.length > 0)
+                );
+                console.log('[WT Saved Indicator] Saved profile names:', Array.from(savedNames));
+                
+                // For each row, check the player name
+                const rows = table.querySelectorAll('tbody tr');
+                console.log('[WT Saved Indicator] Found rows:', rows.length);
+                
+                rows.forEach(row => {
+                    const nameCell = row.querySelector('td.scp_td2 a');
+                    if (!nameCell) return;
+                    const playerName = nameCell.textContent.trim();
+                    console.log('[WT Saved Indicator] Checking player name:', playerName);
+                    if (savedNames.has(playerName)) {
+                        console.log('[WT Saved Indicator] Match found for:', playerName);
+                        // Add indicator if not already present
+                        if (!nameCell.parentNode.querySelector('.saved-profile-indicator')) {
+                            const indicator = document.createElement('span');
+                            indicator.textContent = ' (Save Data Found)';
+                            indicator.className = 'saved-profile-indicator';
+                            indicator.style.color = '#10b981';
+                            indicator.style.fontWeight = 'bold';
+                            indicator.style.fontSize = '12px';
+                            indicator.style.marginLeft = '6px';
+                            nameCell.parentNode.appendChild(indicator);
+                        }
+                    }
+                });
+            });
+        });
+    } else if (window.location.href.includes("userinfo")) {
         // this is the user page, so we can execute the script
 
         // Create the new ul element with the 'totalsTab' class
@@ -95,7 +171,21 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
 
         // clean up things first, if the html element contains "N/A" then set that value to 0, so we'll need to search for the N/A and replace it with 0
         const StatsTable = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div");
-        StatsTable.innerHTML = StatsTable.innerHTML.replace(/N\/A/g, "0");
+        // Use textContent for safer replacement
+        function replaceNAInElement(element) {
+            const walker = document.createTreeWalker(element, NodeFilter.SHOW_TEXT);
+            const textNodes = [];
+            let node;
+            while (node = walker.nextNode()) {
+                textNodes.push(node);
+            }
+            textNodes.forEach(textNode => {
+                if (textNode.textContent.includes('N/A')) {
+                    textNode.textContent = textNode.textContent.replace(/N\/A/g, '0');
+                }
+            });
+        }
+        replaceNAInElement(StatsTable);
         // if document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(7)") is 0 then make it 0m
         if (document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(7)").innerText == "0") {
             document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-profile__stat.user-stat > div > ul.user-stat__list.arcadeFightTab.is-visible > li:nth-child(7)").innerText = "0m";
@@ -109,23 +199,23 @@ if (!document.documentElement.innerHTML.includes("Cloudflare") && !document.docu
         // search for all "N/A" and replace with 0 document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType")
         const AVI_AB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.arcadeFightTab.is-visible");
         // replace all N/A with 0
-        AVI_AB_TableData.innerHTML = AVI_AB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(AVI_AB_TableData);
         AVI_RB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.historyFightTab")
-        AVI_RB_TableData.innerHTML = AVI_RB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(AVI_RB_TableData);
         AVI_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div.user-stat__list-row.is-active > ul.user-stat__list.simulationFightTab");
-        AVI_SB_TableData.innerHTML = AVI_SB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(AVI_SB_TableData);
         GRND_AB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.arcadeFightTab.is-visible");
-        GRND_AB_TableData.innerHTML = GRND_AB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(GRND_AB_TableData);
         GRND_RB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.historyFightTab");
-        GRND_RB_TableData.innerHTML = GRND_RB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(GRND_RB_TableData);
         GRND_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(2) > ul.user-stat__list.simulationFightTab");
-        GRND_SB_TableData.innerHTML = GRND_SB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(GRND_SB_TableData);
         NAV_AB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.arcadeFightTab.is-visible");
-        NAV_AB_TableData.innerHTML = NAV_AB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(NAV_AB_TableData);
         NAV_RB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.historyFightTab");
-        NAV_RB_TableData.innerHTML = NAV_RB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(NAV_RB_TableData);
         NAV_SB_TableData = document.querySelector("#bodyRoot > div.content > div:nth-child(2) > div:nth-child(3) > div > section > div.user-info > div.community__user-rate.user-rate > div.user-rate__fightType > div > div:nth-child(3) > ul.user-stat__list.simulationFightTab");
-        NAV_SB_TableData.innerHTML = NAV_SB_TableData.innerHTML.replace(/N\/A/g, "0");
+        replaceNAInElement(NAV_SB_TableData);
 
         // Function to add dummy clan tag
         function addDummyClanTag() {

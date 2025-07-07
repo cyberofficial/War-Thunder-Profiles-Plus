@@ -1,11 +1,17 @@
 $ErrorActionPreference = "Stop"
 
+
 # Configuration
 $repoOwner = "cyberofficial"
 $repoName = "War-Thunder-Profiles-Plus"
-$branchName = "dev"
+
+# Specify branches and commits to compare
+$branch1 = "current" # old
+$commit1 = "645b9cfda631b27ff84359c7ce252dd6ac876046" # or "latest"
+$branch2 = "dev"     # new (latest)
+$commit2 = "645b9cfda631b27ff84359c7ce252dd6ac876046" # or "latest"
+
 $baseDir = (Get-Location).Path
-$oldCommit = "645b9cfda631b27ff84359c7ce252dd6ac876046"
 $logFile = "$baseDir\build_log.txt"
 
 # Extensions to include in flattening (configurable)
@@ -31,12 +37,25 @@ Remove-Item -Force -Recurse "$baseDir\old","$baseDir\new" -ErrorAction Ignore
 
 Log "Starting repo comparison build process..."
 
-# Get latest commit SHA on refactor branch dynamically
-$apiUrl = "https://api.github.com/repos/$repoOwner/$repoName/branches/$branchName"
-Log "Querying GitHub API for latest commit on branch '$branchName'..."
-$branchData = Invoke-RestMethod -Uri $apiUrl -Headers @{ "User-Agent" = "PowerShell" }
-$newCommit = $branchData.commit.sha
-Log "Latest commit on branch '$branchName' is $newCommit"
+
+# Helper to get latest commit if needed
+function Get-LatestCommit {
+    param (
+        [string]$branch
+    )
+    $apiUrl = "https://api.github.com/repos/$repoOwner/$repoName/branches/$branch"
+    Log "Querying GitHub API for latest commit on branch '$branch'..."
+    $branchData = Invoke-RestMethod -Uri $apiUrl -Headers @{ "User-Agent" = "PowerShell" }
+    return $branchData.commit.sha
+}
+
+# Resolve commit hashes (support "latest" as a value)
+if ($commit1 -eq "latest") {
+    $commit1 = Get-LatestCommit -branch $branch1
+}
+if ($commit2 -eq "latest") {
+    $commit2 = Get-LatestCommit -branch $branch2
+}
 
 # Function to download and extract a commit snapshot
 function Download-RepoZip {
@@ -84,11 +103,10 @@ function Flatten-RepoToText {
     Log "Finished writing to $OutputFile."
 }
 
-# Download old commit snapshot
-Download-RepoZip -commit $oldCommit -destPath "$baseDir\old"
 
-# Download latest refactor commit snapshot
-Download-RepoZip -commit $newCommit -destPath "$baseDir\new"
+# Download snapshots
+Download-RepoZip -commit $commit1 -destPath "$baseDir\old"
+Download-RepoZip -commit $commit2 -destPath "$baseDir\new"
 
 # Locate extracted directories (GitHub zips include repoName-commit as root folder)
 $oldExtracted = Get-ChildItem "$baseDir\old" | Where-Object { $_.PSIsContainer } | Select-Object -First 1

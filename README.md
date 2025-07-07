@@ -9,7 +9,7 @@
 
 ## Preview
 
-![Video Preview of War Thunder Profiles+](https://github.com/user-attachments/assets/07f20241-9c04-41b1-b271-c10e7ea5b5df)
+[Video Preview of War Thunder Profiles+](https://github.com/user-attachments/assets/07f20241-9c04-41b1-b271-c10e7ea5b5df)
 
 
 ---
